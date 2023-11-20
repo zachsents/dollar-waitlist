@@ -12,10 +12,10 @@ export default function Document() {
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
                 {/* Title & Description */}
-                <title key="title">xxx</title>
+                <title key="title">Dollar Waitlist</title>
                 <meta
                     name="description"
-                    content="xxx"
+                    content="Build premium waitlists"
                     key="description"
                 />
 
@@ -29,12 +29,12 @@ export default function Document() {
                 {/* OpenGraph */}
                 <meta
                     property="og:title"
-                    content="xxx"
+                    content="Dollar Waitlist"
                     key="ogtitle"
                 />
                 <meta
                     property="og:description"
-                    content="xxx"
+                    content="Build premium waitlists"
                     key="ogdescription"
                 />
                 <meta property="og:image" content="/og.png" />
