@@ -11,7 +11,7 @@ export default function TeamMemberCard({ avatar, name, title, linkedin, twitter,
         <Group className="gap-1 mt-md">
             {badges.map((badge, i) =>
                 <Badge
-                    className="light-waitlist"
+                    className="wl-primary-dark-on-light"
                     key={i}
                 >
                     {badge}
@@ -64,7 +64,7 @@ function SocialLink({ icon: Icon, href }) {
     return href && (
         <a
             href={href}
-            className="text-3xl text-gray-500 hover:text-[var(--waitlistPrimaryColor)] flex justify-center items-center px-xs py-md"
+            className="text-3xl text-gray-500 hover:text-[var(--wl-primary)] flex justify-center items-center px-xs py-md"
             target="_blank" rel="noreferrer"
         >
             <Icon />

@@ -62,7 +62,7 @@ export default function HeroDemo({ imageSource, labels }) {
                         </svg>
 
                         <div
-                            className="sketch-border bg-[var(--waitlistPrimaryColor)] rounded-full aspect-square w-2 relative"
+                            className="sketch-border bg-[var(--wl-primary)] rounded-full aspect-square w-2 relative"
                         />
 
                         <div

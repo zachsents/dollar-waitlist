@@ -22,15 +22,20 @@ body {
 
 .glowy-bg {
     background-image:
-        radial-gradient(10% 10% at 25% 10%, var(--bgGradientColor) 0%, transparent 100%),
-        radial-gradient(10% 10% at 75% 75%, var(--bgGradientColor) 0%, transparent 100%),
-        radial-gradient(8% 8% at 50% 20%, var(--bgGradientColor) 0%, transparent 100%),
-        radial-gradient(12% 12% at 10% 80%, var(--bgGradientColor) 0%, transparent 100%),
-        radial-gradient(6% 6% at 90% 50%, var(--bgGradientColor) 0%, transparent 100%),
-        radial-gradient(15% 15% at 50% 90%, var(--bgGradientColor) 0%, transparent 100%);
+        radial-gradient(10% 10% at 25% 10%, var(--wl-primary-light-2) 0%, transparent 100%),
+        radial-gradient(10% 10% at 75% 75%, var(--wl-primary-light-2) 0%, transparent 100%),
+        radial-gradient(8% 8% at 50% 20%, var(--wl-primary-light-2) 0%, transparent 100%),
+        radial-gradient(12% 12% at 10% 80%, var(--wl-primary-light-2) 0%, transparent 100%),
+        radial-gradient(6% 6% at 90% 50%, var(--wl-primary-light-2) 0%, transparent 100%),
+        radial-gradient(15% 15% at 50% 90%, var(--wl-primary-light-2) 0%, transparent 100%);
 }
 
-.light-waitlist {
-    background-color: var(--waitlistLightenedPrimaryColor);
-    color: var(--waitlistDarkenedPrimaryColor);
+.wl-primary-dark-on-light {
+    background-color: var(--wl-primary-light);
+    color: var(--wl-primary-dark);
+}
+
+.wl-secondary-dark-on-light {
+    background-color: var(--wl-secondary-light);
+    color: var(--wl-secondary-dark);
 }

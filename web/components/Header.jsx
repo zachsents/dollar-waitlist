@@ -1,19 +1,31 @@
 import { Anchor, Center, Group, Menu } from "@mantine/core"
+import { useCurrentWaitlistCSSVariables } from "@web/modules/hooks"
 import { TbMenu2 } from "react-icons/tb"
 import Brand from "./Brand"
+import { useWindowScroll } from "@mantine/hooks"
+import classNames from "classnames"
 
 
 export default function Header() {
-    return (
-        <header className="fixed z-10 top-0 left-0 w-full p-xl">
-            <Group noWrap className="gap-10 justify-between max-w-7xl mx-auto w-full">
-                <Brand />
 
-                <Group noWrap className="hidden md:flex gap-lg [&_a]:font-bold [&_a]:text-dark">
-                    <Anchor href="#showcase">Showcase</Anchor>
-                    <Anchor href="#benefits">Benefits</Anchor>
-                    <Anchor href="#testimonials">Testimonials</Anchor>
-                    <Anchor href="#team">Team</Anchor>
+    const cssVariables = useCurrentWaitlistCSSVariables()
+
+    const [{ y: windowScroll }] = useWindowScroll()
+    const isScrolled = windowScroll > 25
+
+    return (
+        <header className="fixed z-10 top-0 left-0 w-full p-xl" style={cssVariables}>
+            <Group noWrap className="gap-10 justify-between max-w-7xl mx-auto w-full">
+                <Brand className={classNames(
+                    "hover:opacity-100 transition-opacity",
+                    isScrolled ? "opacity-50" : "opacity-100"
+                )} />
+
+                <Group noWrap className="hidden md:flex gap-lg">
+                    <NavLink href="#showcase">Showcase</NavLink>
+                    <NavLink href="#benefits">Benefits</NavLink>
+                    <NavLink href="#testimonials">Testimonials</NavLink>
+                    <NavLink href="#team">Team</NavLink>
                 </Group>
 
                 <Menu position="bottom-end">
@@ -30,5 +42,17 @@ export default function Header() {
                 </Menu>
             </Group>
         </header>
+    )
+}
+
+
+function NavLink({ ...props }) {
+
+    return (
+        <Anchor
+            className="text-dark font-bold hover:text-[var(--wl-primary)] no-underline hover:no-underline"
+            // component={Link}
+            {...props}
+        />
     )
 }

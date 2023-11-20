@@ -13,7 +13,7 @@ export default function Brand({ className }) {
 
     return (
         <Link href="#" className="no-underline text-dark">
-            <Group noWrap className={classNames("gap-lg opacity-50 hover:opacity-100 transition-opacity", className)}>
+            <Group noWrap className={classNames("gap-lg", className)}>
                 {waitlist?.logoMode === "text" ?
                     <>
                         <img

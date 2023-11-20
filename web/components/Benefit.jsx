@@ -8,7 +8,7 @@ export default function Benefit({ title, subtitle, icon: iconName }) {
 
     return (
         <Stack className="items-center">
-            <Center className="rounded-lg light-waitlist w-20 h-auto aspect-square text-4xl">
+            <Center className="rounded-lg wl-primary-dark-on-light w-20 h-auto aspect-square text-4xl">
                 <Icon />
             </Center>
 

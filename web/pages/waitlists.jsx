@@ -55,7 +55,7 @@ export default function DashboardPage() {
                                     component={Link} href={`/waitlist/${waitlist.id}/settings`}
                                 >
                                     <div className="h-10" style={{
-                                        backgroundColor: waitlist.primaryColor,
+                                        backgroundColor: waitlist.colors.primary,
                                     }} />
                                     <Stack className="p-lg gap-md">
                                         <div>
