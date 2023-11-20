@@ -1,6 +1,7 @@
 import { Badge, Button, Center, Group, Paper, Progress, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useLocalStorage } from "@mantine/hooks"
+import { modals } from "@mantine/modals"
 import { useCurrentWaitlist } from "@web/modules/hooks"
 import { SUBMITTED_EMAIL_LS_KEY, SUCCESSFUL_EMAIL_LS_KEY, formatNumber } from "@web/modules/util"
 import classNames from "classnames"
@@ -71,7 +72,10 @@ export default function JoinSidebar() {
                     <Stack>
                         {successfulEmail ? <>
                             <Group noWrap className="justify-center my-md">
-                                <ThemeIcon size="lg" radius="md" className="bg-[var(--wl-secondary)]">
+                                <ThemeIcon
+                                    size="lg" radius="md" className="bg-[var(--wl-secondary)]"
+                                    onDoubleClick={confirmClearEmail}
+                                >
                                     <TbCheck />
                                 </ThemeIcon>
 
@@ -189,4 +193,28 @@ export default function JoinSidebar() {
             </Center>
         </div>
     )
+}
+
+
+const confirmClearEmail = () => {
+    modals.openConfirmModal({
+        title: "Clear email?",
+        children: "Are you sure you want to clear your email? This only affects your browser, not the waitlist.",
+        labels: {
+            confirm: "Clear Email",
+            cancel: "Cancel",
+        },
+        confirmProps: {
+            color: "red",
+        },
+        cancelProps: {
+            variant: "subtle",
+            color: "gray",
+        },
+        onConfirm: () => {
+            localStorage.removeItem(SUCCESSFUL_EMAIL_LS_KEY)
+            localStorage.removeItem(SUBMITTED_EMAIL_LS_KEY)
+            window.location.reload()
+        },
+    })
 }

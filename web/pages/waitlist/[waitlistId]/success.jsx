@@ -21,19 +21,22 @@ export default function WaitlistPaymentSuccessPage() {
         if (!router.isReady)
             return
 
-        if (submittedEmail) {
-            localStorage.setItem(SUCCESSFUL_EMAIL_LS_KEY, submittedEmail)
-            localStorage.removeItem(SUBMITTED_EMAIL_LS_KEY)
-            setTimeout(goToWaitlist, 1000)
+        if (!submittedEmail) {
+            goToWaitlist()
+            return
         }
 
-        goToWaitlist()
+        localStorage.setItem(SUCCESSFUL_EMAIL_LS_KEY, submittedEmail)
+        localStorage.removeItem(SUBMITTED_EMAIL_LS_KEY)
+        setTimeout(goToWaitlist, 1000)
     }, [submittedEmail, router.isReady])
 
     return (
         <Center className="fixed top-0 left-0 w-screen h-screen">
             <Stack className="items-center text-center">
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }} >
+                <motion.div
+                    initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }}
+                >
                     <ThemeIcon size="xl" radius="xl" color="">
                         <TbCheck />
                     </ThemeIcon>
