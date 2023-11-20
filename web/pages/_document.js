@@ -2,6 +2,10 @@ import { additionalCSSVariables } from "@web/theme"
 import { Head, Html, Main, NextScript } from "next/document"
 
 
+const headline = "Dollar Waitlist"
+const description = "Build premium waitlists"
+
+
 export default function Document() {
 
     return (
@@ -12,10 +16,10 @@ export default function Document() {
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
                 {/* Title & Description */}
-                <title key="title">Dollar Waitlist</title>
+                <title key="title">{headline}</title>
                 <meta
                     name="description"
-                    content="Build premium waitlists"
+                    content={description}
                     key="description"
                 />
 
@@ -29,15 +33,22 @@ export default function Document() {
                 {/* OpenGraph */}
                 <meta
                     property="og:title"
-                    content="Dollar Waitlist"
+                    content={headline}
                     key="ogtitle"
                 />
                 <meta
                     property="og:description"
-                    content="Build premium waitlists"
+                    content={description}
                     key="ogdescription"
                 />
                 <meta property="og:image" content="/og.png" />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta property="twitter:title" content={headline} />
+                <meta property="twitter:creator" content="@Zach_Sents" />
+                <meta property="twitter:image" content="/og.png" />
+                <meta property="twitter:description" content={description} />
 
                 {/* Assets */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
