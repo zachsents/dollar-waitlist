@@ -179,12 +179,13 @@ export default function JoinSidebar() {
                     </Menu.Dropdown>
                 </Menu> */}
 
-                <Badge
-                    size="lg"
-                    className="self-center wl-secondary-dark-on-light !normal-case absolute top-0 right-0 scale-125 rotate-12 shadow-lg"
-                >
-                    {waitlist?.maxSignupCount ? "Limited Spots!" : "Join Now!"}
-                </Badge>
+                {!successfulEmail &&
+                    <Badge
+                        size="lg"
+                        className="self-center wl-secondary-dark-on-light !normal-case absolute top-0 right-0 scale-125 rotate-12 shadow-lg"
+                    >
+                        {waitlist?.maxSignupCount ? "Limited Spots!" : "Join Now!"}
+                    </Badge>}
             </Center>
         </div>
     )
