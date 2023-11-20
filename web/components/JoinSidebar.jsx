@@ -1,19 +1,20 @@
 import { Badge, Button, Center, Group, Paper, Progress, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { useHotkeys, useLocalStorage } from "@mantine/hooks"
+import { useLocalStorage } from "@mantine/hooks"
 import { useCurrentWaitlist } from "@web/modules/hooks"
-import { formatNumber } from "@web/modules/util"
+import { SUBMITTED_EMAIL_LS_KEY, SUCCESSFUL_EMAIL_LS_KEY, formatNumber } from "@web/modules/util"
 import classNames from "classnames"
-import { useMemo } from "react"
-import { TbBallpen, TbMail } from "react-icons/tb"
-import { useMutation } from "react-query"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
+import { TbBallpen, TbCheck, TbMail } from "react-icons/tb"
 
 
-const EMAIL_LIMIT = 4
+// const EMAIL_LIMIT = 4
 
 
 export default function JoinSidebar() {
 
+    const router = useRouter()
     const [waitlist] = useCurrentWaitlist()
 
     const form = useForm({
@@ -25,28 +26,32 @@ export default function JoinSidebar() {
         },
     })
 
-    const [previousEmails, setPreviousEmails] = useLocalStorage({
-        key: "previouslyUsedEmails",
-        defaultValue: [],
+    const handleSubmit = ({ email }) => {
+        const url = new URL(waitlist.stripePaymentLink)
+        url.searchParams.set("prefilled_email", email)
+        localStorage.setItem(SUBMITTED_EMAIL_LS_KEY, email)
+        router.push(url.toString())
+    }
+
+    useEffect(() => {
+        localStorage.removeItem(SUBMITTED_EMAIL_LS_KEY)
+    }, [])
+
+    const [successfulEmail] = useLocalStorage({
+        key: SUCCESSFUL_EMAIL_LS_KEY,
     })
 
-    const joinWaitlistMut = useMutation({
-        mutationFn: async ({ email }) => {
-            form.setFieldValue("email", email)
-            await new Promise(resolve => setTimeout(resolve, 1000))
+    // const [previousEmails, setPreviousEmails] = useLocalStorage({
+    //     key: "previouslyUsedEmails",
+    //     defaultValue: [],
+    // })
 
-            if (!previousEmails.includes(email))
-                setPreviousEmails([...new Set([email, ...previousEmails].slice(0, EMAIL_LIMIT))])
-            // TO DO: take user to stripe page
-        },
-    })
+    // const hotkeyHandlers = useMemo(() => previousEmails?.map((email, i) => [
+    //     `${i + 1}`,
+    //     () => joinWaitlistMut.mutate({ email }),
+    // ]) || [], [previousEmails?.join()])
 
-    const hotkeyHandlers = useMemo(() => previousEmails?.map((email, i) => [
-        `${i + 1}`,
-        () => joinWaitlistMut.mutate({ email }),
-    ]) || [], [previousEmails?.join()])
-
-    useHotkeys(hotkeyHandlers)
+    // useHotkeys(hotkeyHandlers)
 
     const signupProgress = waitlist?.signupCount && waitlist?.maxSignupCount ?
         waitlist?.signupCount / waitlist?.maxSignupCount * 100 : 0
@@ -60,44 +65,64 @@ export default function JoinSidebar() {
                 className="w-full relative rounded-xl shadow-lg px-xl py-16"
             >
                 <form
-                    onSubmit={form.onSubmit(joinWaitlistMut.mutate)}
+                    onSubmit={form.onSubmit(handleSubmit)}
                     className="w-full max-w-xs"
                 >
                     <Stack>
-                        <Group noWrap className="justify-center my-md">
-                            <ThemeIcon size="lg" radius="md" className="bg-[var(--wl-secondary)]">
-                                <TbBallpen />
-                            </ThemeIcon>
+                        {successfulEmail ? <>
+                            <Group noWrap className="justify-center my-md">
+                                <ThemeIcon size="lg" radius="md" className="bg-[var(--wl-secondary)]">
+                                    <TbCheck />
+                                </ThemeIcon>
 
-                            <Text className="font-bold text-2xl whitespace-nowrap">
-                                Join the waitlist!
+                                <Text className="font-bold text-2xl whitespace-nowrap">
+                                    You're signed up!
+                                </Text>
+                            </Group>
+
+                            <Text className="text-center text-gray">
+                                {successfulEmail}
                             </Text>
-                        </Group>
 
-                        <TextInput
-                            placeholder="Email"
-                            size="lg" radius="xl"
-                            icon={<TbMail />}
-                            type="email" variant="filled" name="email"
-                            classNames={{
-                                input: "border-none outline outline-1 outline-transparent focus:outline-[var(--wl-primary)] focus:outline"
-                            }}
-                            disabled={joinWaitlistMut.isLoading}
-                            {...form.getInputProps("email")}
-                        />
+                            <Text className="text-center text-gray">
+                                Watch your inbox for updates.
+                            </Text>
+                        </> : <>
+                            <Group noWrap className="justify-center my-md">
+                                <ThemeIcon size="lg" radius="md" className="bg-[var(--wl-secondary)]">
+                                    <TbBallpen />
+                                </ThemeIcon>
 
-                        <Button
-                            className={classNames(
-                                "sketch-border hover:scale-105 hover:shadow-lg transition bg-[var(--wl-secondary)] hover:bg-[var(--wl-secondary)]",
-                                { "shadow-md": form.isValid() },
-                            )}
-                            size="xl" radius="xl" rightIcon={<Text className="font-bold">$1</Text>}
-                            disabled={!form.isValid()}
-                            loading={joinWaitlistMut.isLoading}
-                            type="submit"
-                        >
-                            Join Waitlist
-                        </Button>
+                                <Text className="font-bold text-2xl whitespace-nowrap">
+                                    Join the waitlist!
+                                </Text>
+                            </Group>
+
+                            <TextInput
+                                placeholder="Email"
+                                size="lg" radius="xl"
+                                icon={<TbMail />}
+                                type="email" variant="filled" name="email"
+                                classNames={{
+                                    input: "border-none outline outline-1 outline-transparent focus:outline-[var(--wl-primary)] focus:outline"
+                                }}
+                                // disabled={joinWaitlistMut.isLoading}
+                                {...form.getInputProps("email")}
+                            />
+
+                            <Button
+                                className={classNames(
+                                    "sketch-border hover:scale-105 hover:shadow-lg transition bg-[var(--wl-secondary)] hover:bg-[var(--wl-secondary)]",
+                                    { "shadow-md": form.isValid() },
+                                )}
+                                size="xl" radius="xl" rightIcon={<Text className="font-bold">$1</Text>}
+                                disabled={!form.isValid()}
+                                // loading={joinWaitlistMut.isLoading}
+                                type="submit"
+                            >
+                                Join Waitlist
+                            </Button>
+                        </>}
 
                         {/* {previousEmails?.length > 0 &&
                             <Stack className="gap-xs my-md">

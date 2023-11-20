@@ -87,7 +87,7 @@ export default function PreviewWaitlistPage() {
                 <JoinSidebar />
             </div>
         </div>
-        <LoadingOverlay visible={waitlistQuery.isLoading} />
+        <LoadingOverlay visible={waitlistQuery.isLoading} overlayOpacity={1} zIndex={1000} />
     </>)
 }
 
