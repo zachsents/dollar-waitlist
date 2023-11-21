@@ -7,7 +7,7 @@ import { SUBMITTED_EMAIL_LS_KEY, SUCCESSFUL_EMAIL_LS_KEY, formatNumber } from "@
 import classNames from "classnames"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { TbBallpen, TbCheck, TbMail } from "react-icons/tb"
+import { TbBallpen, TbCheck, TbGift, TbMail } from "react-icons/tb"
 
 
 // const EMAIL_LIMIT = 4
@@ -54,8 +54,17 @@ export default function JoinSidebar() {
 
     // useHotkeys(hotkeyHandlers)
 
+    const signupCount = waitlist?.allowOverflowSignups ?
+        waitlist?.signupCount :
+        Math.min(waitlist?.signupCount, waitlist?.maxSignupCount)
+
     const signupProgress = waitlist?.signupCount && waitlist?.maxSignupCount ?
-        waitlist?.signupCount / waitlist?.maxSignupCount * 100 : 0
+        waitlist?.signupCount / waitlist?.maxSignupCount * 100 :
+        0
+
+    const isWaitlistFull = waitlist?.allowOverflowSignups ?
+        false :
+        waitlist?.signupCount >= waitlist?.maxSignupCount
 
     return (
         <div
@@ -71,18 +80,7 @@ export default function JoinSidebar() {
                 >
                     <Stack>
                         {successfulEmail ? <>
-                            <Group noWrap className="justify-center my-md">
-                                <ThemeIcon
-                                    size="lg" radius="md" className="bg-[var(--wl-secondary)]"
-                                    onDoubleClick={confirmClearEmail}
-                                >
-                                    <TbCheck />
-                                </ThemeIcon>
-
-                                <Text className="font-bold text-2xl whitespace-nowrap">
-                                    You're signed up!
-                                </Text>
-                            </Group>
+                            <JoinCardHeading icon={TbCheck}>You're signed up!</JoinCardHeading>
 
                             <Text className="text-center text-gray">
                                 {successfulEmail}
@@ -91,42 +89,41 @@ export default function JoinSidebar() {
                             <Text className="text-center text-gray">
                                 Watch your inbox for updates.
                             </Text>
-                        </> : <>
-                            <Group noWrap className="justify-center my-md">
-                                <ThemeIcon size="lg" radius="md" className="bg-[var(--wl-secondary)]">
-                                    <TbBallpen />
-                                </ThemeIcon>
+                        </> :
+                            isWaitlistFull ? <>
+                                <JoinCardHeading icon={TbGift}>That's a wrap!</JoinCardHeading>
 
-                                <Text className="font-bold text-2xl whitespace-nowrap">
-                                    Join the waitlist!
+                                <Text className="text-center text-gray">
+                                    The waitlist is full.
                                 </Text>
-                            </Group>
+                            </> : <>
+                                <JoinCardHeading icon={TbBallpen}>Join the waitlist!</JoinCardHeading>
 
-                            <TextInput
-                                placeholder="Email"
-                                size="lg" radius="xl"
-                                icon={<TbMail />}
-                                type="email" variant="filled" name="email"
-                                classNames={{
-                                    input: "border-none outline outline-1 outline-transparent focus:outline-[var(--wl-primary)] focus:outline"
-                                }}
-                                // disabled={joinWaitlistMut.isLoading}
-                                {...form.getInputProps("email")}
-                            />
+                                <TextInput
+                                    placeholder="Email"
+                                    size="lg" radius="xl"
+                                    icon={<TbMail />}
+                                    type="email" variant="filled" name="email"
+                                    classNames={{
+                                        input: "border-none outline outline-1 outline-transparent focus:outline-[var(--wl-primary)] focus:outline"
+                                    }}
+                                    // disabled={joinWaitlistMut.isLoading}
+                                    {...form.getInputProps("email")}
+                                />
 
-                            <Button
-                                className={classNames(
-                                    "sketch-border hover:scale-105 hover:shadow-lg transition bg-[var(--wl-secondary)] hover:bg-[var(--wl-secondary)]",
-                                    { "shadow-md": form.isValid() },
-                                )}
-                                size="xl" radius="xl" rightIcon={<Text className="font-bold">$1</Text>}
-                                disabled={!form.isValid()}
-                                // loading={joinWaitlistMut.isLoading}
-                                type="submit"
-                            >
-                                Join Waitlist
-                            </Button>
-                        </>}
+                                <Button
+                                    className={classNames(
+                                        "sketch-border hover:scale-105 hover:shadow-lg transition bg-[var(--wl-secondary)] hover:bg-[var(--wl-secondary)]",
+                                        { "shadow-md": form.isValid() },
+                                    )}
+                                    size="xl" radius="xl" rightIcon={<Text className="font-bold">$1</Text>}
+                                    disabled={!form.isValid()}
+                                    // loading={joinWaitlistMut.isLoading}
+                                    type="submit"
+                                >
+                                    Join Waitlist
+                                </Button>
+                            </>}
 
                         {/* {previousEmails?.length > 0 &&
                             <Stack className="gap-xs my-md">
@@ -146,23 +143,26 @@ export default function JoinSidebar() {
                             </Stack>} */}
 
                         <Stack className="mt-10">
-                            {
-                                <Text className="text-center font-bold">{formatNumber(waitlist?.signupCount)} signed up!</Text>}
+                            <Text className="text-center font-bold">
+                                {signupCount > 0 ?
+                                    `${formatNumber(signupCount)} signed up!` :
+                                    "Be the first to sign up!"}
+                            </Text>
 
-                            <div>
-                                {waitlist?.maxSignupCount ?
+                            {!!waitlist?.maxSignupCount &&
+                                <div>
                                     <Progress
                                         value={signupProgress}
                                         radius="xl" className="h-4"
                                         classNames={{
                                             bar: "bg-[var(--wl-secondary)]",
                                         }}
-                                    /> :
-                                    null}
-                                <Text className="text-gray text-sm mt-1 mr-xs text-right">
-                                    {formatNumber(waitlist?.signupCount)} / {formatNumber(waitlist?.maxSignupCount)}
-                                </Text>
-                            </div>
+                                    />
+
+                                    <Text className="text-gray text-sm mt-1 mr-xs text-right">
+                                        {formatNumber(signupCount)} / {formatNumber(waitlist?.maxSignupCount)}
+                                    </Text>
+                                </div>}
                         </Stack>
                     </Stack>
                 </form>
@@ -192,6 +192,24 @@ export default function JoinSidebar() {
                     </Badge>}
             </Center>
         </div>
+    )
+}
+
+
+function JoinCardHeading({ icon: Icon, children }) {
+    return (
+        <Group noWrap className="justify-center my-md">
+            <ThemeIcon
+                size="lg" radius="md" className="bg-[var(--wl-secondary)]"
+                onDoubleClick={confirmClearEmail}
+            >
+                <Icon />
+            </ThemeIcon>
+
+            <Text className="font-bold text-2xl whitespace-nowrap">
+                {children}
+            </Text>
+        </Group>
     )
 }
 
