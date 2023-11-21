@@ -61,7 +61,7 @@ async function onCheckoutSessionCompleted(stripe, checkoutSession) {
 
     await Promise.all([
         db.collection("waitlist-signups").add({
-            email: checkoutSession.customer_email,
+            email: checkoutSession.customer_email || checkoutSession.customer_details.email,
             waitlistId,
             waitlist: waitlistRef,
             createdAt: FieldValue.serverTimestamp(),
