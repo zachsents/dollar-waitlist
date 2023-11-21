@@ -14,6 +14,7 @@ import { doc, getDoc } from "firebase/firestore"
 import { motion } from "framer-motion"
 import Head from "next/head"
 import { useState } from "react"
+import { TbCheck } from "react-icons/tb"
 
 
 export async function getServerSideProps(context) {
@@ -85,6 +86,20 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                     imageSource={demoImageUrlQuery.data}
                                     labels={waitlist?.demo?.labels}
                                 />
+                                {!!waitlist?.otherFeatures &&
+                                    <Stack>
+                                        <Text className="text-sm font-bold text-gray">
+                                            Other Features:
+                                        </Text>
+                                        <ul className="columns-2 gap-x-md m-0 p-0">
+                                            {waitlist?.otherFeatures?.map((feature, i) =>
+                                                <li className="flex items-center gap-md mb-md" key={i}>
+                                                    <TbCheck className="text-lg text-[var(--wl-primary)] shrink-0" />
+                                                    <Text className="text-lg">{feature}</Text>
+                                                </li>
+                                            )}
+                                        </ul>
+                                    </Stack>}
                             </Stack>
                             <Stack className="gap-10 scroll-m-20" id="benefits">
                                 <SectionLabel label="Benefits" slug="benefits" />

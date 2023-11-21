@@ -2,7 +2,7 @@ import { Center, Stack, Text } from "@mantine/core"
 import * as TbIcons from "react-icons/tb"
 
 
-export default function Benefit({ title, subtitle, icon: iconName }) {
+export default function Benefit({ title, description, icon: iconName }) {
 
     const Icon = TbIcons[`Tb${iconName}`]
 
@@ -16,7 +16,7 @@ export default function Benefit({ title, subtitle, icon: iconName }) {
                 {title}
             </Text>
             <Text className="text-md text-center">
-                {subtitle}
+                {description}
             </Text>
         </Stack>
     )

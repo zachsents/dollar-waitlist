@@ -1,7 +1,8 @@
-import { Text } from "@mantine/core"
+import { Group, Text } from "@mantine/core"
 import { useClickOutside, useForceUpdate, useHover, useMergedRef } from "@mantine/hooks"
 import classNames from "classnames"
 import { useEffect, useState } from "react"
+import * as TbIcons from "react-icons/tb"
 
 
 export default function HeroDemo({ imageSource, labels, adjustContainer = false }) {
@@ -62,7 +63,9 @@ export default function HeroDemo({ imageSource, labels, adjustContainer = false 
 }
 
 
-function Label({ x, y, position, offset, text, description, onStartHover, onEndHover, onClickOutside, hidden = false, solo = false, ...props }) {
+function Label({ x, y, position, offset, text, icon: iconName, description, onStartHover, onEndHover, onClickOutside, hidden = false, solo = false, ...props }) {
+
+    const Icon = iconName && TbIcons[`Tb${iconName}`]
 
     const { ref: hoverRef, hovered } = useHover()
     const clickOutsideRef = useClickOutside(() => onClickOutside?.())
@@ -141,7 +144,10 @@ function Label({ x, y, position, offset, text, description, onStartHover, onEndH
                 ref={ref}
                 {...props}
             >
-                <Text>{text}</Text>
+                <Group className="justify-center gap-xs">
+                    {Icon && <Icon />}
+                    <Text>{text}</Text>
+                </Group>
                 {description &&
                     <Text className="text-xs text-gray">{description}</Text>}
             </div>
