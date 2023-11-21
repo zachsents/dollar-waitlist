@@ -44,6 +44,5 @@
         "eslint-config-custom": "workspace:*",
         "postcss": "^8.4.25",
         "tailwindcss": "^3.3.2"
-    },
-    "type": "module"
+    }
 }
