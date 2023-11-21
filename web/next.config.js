@@ -7,7 +7,7 @@ module.exports = {
     redirects: async () => {
         return [
             {
-                source: "/:path((?!waitlist/dollar-waitlist(?:/|$)).*)",
+                source: "/:path((?!waitlist/dollar-waitlist(?:/|$)|assets(?:/|$)).*)",
                 destination: "/waitlist/dollar-waitlist",
                 permanent: false,
             },

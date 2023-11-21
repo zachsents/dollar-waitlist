@@ -23,11 +23,11 @@ export default function Document() {
                 />
 
                 {/* Favicon & other icons */}
-                <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-                <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-                <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-                <link rel="manifest" href="/site.webmanifest" />
+                <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+                <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+                <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
+                <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
+                <link rel="manifest" href="/assets/site.webmanifest" />
 
                 {/* OpenGraph */}
                 <meta
@@ -40,13 +40,13 @@ export default function Document() {
                     content={description}
                     key="ogdescription"
                 />
-                <meta property="og:image" content="/og.png" />
+                <meta property="og:image" content="/assets/og.png" />
 
                 {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta property="twitter:title" content={headline} />
                 <meta property="twitter:creator" content="@Zach_Sents" />
-                <meta property="twitter:image" content="/og.png" />
+                <meta property="twitter:image" content="/assets/og.png" />
                 <meta property="twitter:description" content={description} />
 
                 {/* Assets */}
