@@ -7,13 +7,17 @@ import "@web/styles/globals.css"
 import { mantineTheme } from "@web/theme"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { FirebaseProvider } from "@zachsents/fire-query"
+import Head from "next/head"
 
 
 const queryClient = new QueryClient()
 
 
 export default function MyApp({ Component, pageProps }) {
-    return (
+    return (<>
+        <Head>
+            <title key="title">Dollar Waitlist</title>
+        </Head>
         <QueryClientProvider client={queryClient}>
             <FirebaseProvider
                 auth={fire.auth}
@@ -31,7 +35,7 @@ export default function MyApp({ Component, pageProps }) {
                 </MantineProvider>
             </FirebaseProvider>
         </QueryClientProvider>
-    )
+    </>)
 }
 
 const modals = {

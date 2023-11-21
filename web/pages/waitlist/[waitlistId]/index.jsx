@@ -36,7 +36,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
     return (<>
         <Head>
             <title key="title">
-                {waitlist.name} - Dollar Waitlist
+                {`${waitlist.name} - Dollar Waitlist`}
             </title>
         </Head>
 
