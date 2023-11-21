@@ -1,5 +1,5 @@
 import { Text } from "@mantine/core"
-import { useForceUpdate, useHover } from "@mantine/hooks"
+import { useClickOutside, useForceUpdate, useHover, useMergedRef } from "@mantine/hooks"
 import classNames from "classnames"
 import { useEffect, useState } from "react"
 
@@ -11,7 +11,8 @@ export default function HeroDemo({ imageSource, labels, adjustContainer = false 
 
     const forceUpdate = useForceUpdate()
 
-    const [hoveredLabelIndex, setHoveredLabelIndex] = useState()
+    const [soloLabelIndex, setSoloLabelIndex] = useState()
+    const [soloClicked, setSoloClicked] = useState(false)
 
     return (
         <div className="w-full">
@@ -38,10 +39,20 @@ export default function HeroDemo({ imageSource, labels, adjustContainer = false 
                 {labels?.map((label, i) =>
                     <Label
                         {...label}
-                        onStartHover={() => setHoveredLabelIndex(i)}
-                        onEndHover={() => setHoveredLabelIndex(undefined)}
-                        hidden={hoveredLabelIndex != null && hoveredLabelIndex !== i}
-                        solo={hoveredLabelIndex === i}
+                        solo={soloLabelIndex === i}
+                        hidden={soloLabelIndex != null && soloLabelIndex !== i}
+                        onStartHover={() => !soloClicked && setSoloLabelIndex(i)}
+                        onEndHover={() => !soloClicked && setSoloLabelIndex(undefined)}
+                        onPointerDown={() => {
+                            setSoloClicked(true)
+                            setSoloLabelIndex(i)
+                        }}
+                        onClickOutside={() => {
+                            if (soloClicked && soloLabelIndex === i) {
+                                setSoloClicked(false)
+                                setSoloLabelIndex(undefined)
+                            }
+                        }}
                         key={i}
                     />
                 )}
@@ -51,9 +62,11 @@ export default function HeroDemo({ imageSource, labels, adjustContainer = false 
 }
 
 
-function Label({ x, y, position, offset, text, description, onStartHover, onEndHover, hidden = false, solo = false }) {
+function Label({ x, y, position, offset, text, description, onStartHover, onEndHover, onClickOutside, hidden = false, solo = false, ...props }) {
 
-    const { ref, hovered } = useHover()
+    const { ref: hoverRef, hovered } = useHover()
+    const clickOutsideRef = useClickOutside(() => onClickOutside?.())
+    const ref = useMergedRef(hoverRef, clickOutsideRef)
 
     useEffect(() => {
         if (hovered)
@@ -114,7 +127,7 @@ function Label({ x, y, position, offset, text, description, onStartHover, onEndH
 
             <div
                 className={classNames(
-                    "absolute sketch-border bg-white rounded-md p-xs w-max max-w-[16rem] text-center cursor-default transition",
+                    "absolute sketch-border bg-white rounded-md p-xs w-max max-w-[16rem] text-center cursor-pointer select-none transition",
                     {
                         "left-1/2 -translate-x-1/2": position === "top" || position === "bottom",
                         "top-1/2 -translate-y-1/2": position === "left" || position === "right",
@@ -126,6 +139,7 @@ function Label({ x, y, position, offset, text, description, onStartHover, onEndH
                     solo ? "shadow-lg scale-110" : "shadow-md",
                 )}
                 ref={ref}
+                {...props}
             >
                 <Text>{text}</Text>
                 {description &&

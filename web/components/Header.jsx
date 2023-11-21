@@ -29,16 +29,20 @@ export default function Header() {
                     <NavLink href="#team">Team</NavLink>
                 </Group>
 
-                <Menu position="bottom-end">
+                <Menu position="bottom-end" shadow="xl" offset={0} classNames={{
+                    itemLabel: "font-bold text-lg px-sm",
+                    dropdown: "py-sm",
+                }}>
                     <Menu.Target>
                         <Center className="md:hidden text-3xl p-6 -m-6">
                             <TbMenu2 />
                         </Center>
                     </Menu.Target>
                     <Menu.Dropdown className="md:hidden">
-                        <Menu.Item>Item 1</Menu.Item>
-                        <Menu.Item>Item 2</Menu.Item>
-                        <Menu.Item>Item 3</Menu.Item>
+                        <Menu.Item component="a" href="#showcase">Showcase</Menu.Item>
+                        <Menu.Item component="a" href="#benefits">Benefits</Menu.Item>
+                        <Menu.Item component="a" href="#testimonials">Testimonials</Menu.Item>
+                        <Menu.Item component="a" href="#team">Team</Menu.Item>
                     </Menu.Dropdown>
                 </Menu>
             </Group>

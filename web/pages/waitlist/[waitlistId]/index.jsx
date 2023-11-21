@@ -1,8 +1,8 @@
-import { Anchor, Divider, Stack, Text, Title } from "@mantine/core"
+import { Anchor, Divider, Overlay, Portal, Stack, Text, Title } from "@mantine/core"
 import Benefit from "@web/components/Benefit"
 import Header from "@web/components/Header"
 import HeroDemo from "@web/components/HeroDemo"
-import JoinSidebar from "@web/components/JoinSidebar"
+import JoinCard from "@web/components/JoinCard"
 import TeamMemberCard from "@web/components/TeamMemberCard"
 import Tweet from "@web/components/Tweet"
 import { fire } from "@web/modules/firebase"
@@ -10,6 +10,9 @@ import { useStorageUrl } from "@web/modules/firebase/storage"
 import { CurrentWaitlistContext, useWaitlistCSSVariables } from "@web/modules/hooks"
 import { doc, getDoc } from "firebase/firestore"
 import Head from "next/head"
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { useClickOutside } from "@mantine/hooks"
 
 
 export async function getServerSideProps(context) {
@@ -32,6 +35,9 @@ export default function PreviewWaitlistPage({ waitlist }) {
     const cssVariables = useWaitlistCSSVariables(waitlist)
 
     const demoImageUrlQuery = useStorageUrl(waitlist?.demo?.image)
+
+    const [showingMobileJoinCard, setShowingMobileJoinCard] = useState(false)
+    const mobileCardRef = useClickOutside(() => setShowingMobileJoinCard(false))
 
     return (<>
         <Head>
@@ -103,7 +109,38 @@ export default function PreviewWaitlistPage({ waitlist }) {
                         </Stack>
                     </div>
 
-                    <JoinSidebar />
+                    <div
+                        className="hidden md:flex grow max-w-[24rem] h-screen sticky top-0 py-12 flex-col gap-16 justify-center"
+                    >
+                        <JoinCard />
+                    </div>
+
+                    <div
+                        className="md:hidden fixed left-1/2 top-full -translate-x-1/2 -translate-y-40 z-[100]"
+                        onPointerDown={() => !showingMobileJoinCard && setShowingMobileJoinCard(true)}
+                    >
+                        <motion.div
+                            variants={{
+                                hidden: { y: 0 },
+                                visible: { y: "-100%" },
+                            }}
+                            initial="hidden"
+                            animate={showingMobileJoinCard ? "visible" : "hidden"}
+                            ref={mobileCardRef}
+                        >
+                            <JoinCard />
+                        </motion.div>
+
+                        {showingMobileJoinCard &&
+                            <Portal>
+                                <Overlay
+                                    component={motion.div}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 0.5 }}
+                                    className="fixed z-[99]"
+                                />
+                            </Portal>}
+                    </div>
                 </div>
             </div>
         </CurrentWaitlistContext.Provider>
@@ -111,15 +148,15 @@ export default function PreviewWaitlistPage({ waitlist }) {
 }
 
 
-function SectionLabel({ children, slug }) {
+function SectionLabel({ children }) {
     return (
         <div
             className="flex justify-end sticky top-20 md:top-10 z-10 pointer-events-none"
         >
             <Text
-                component="a"
-                className="text-center text-gray text-sm uppercase font-bold p-md rounded-full border-dashed border-gray border-1 pointer-events-auto cursor-pointer hover:text-dark hover:border-dark transition "
-                href={`#${slug}`}
+                className="text-center text-gray text-sm uppercase font-bold p-md rounded-full border-dashed border-gray border-1 cursor-pointer hover:text-dark hover:border-dark transition"
+            // component="a"
+            // href={`#${slug}`}
             >
                 {children}
             </Text>

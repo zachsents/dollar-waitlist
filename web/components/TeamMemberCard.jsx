@@ -8,7 +8,7 @@ export default function TeamMemberCard({ avatar, name, title, linkedin, twitter,
     const { data: avatarUrl } = useStorageUrl(avatar)
 
     const badgeGroup =
-        <Group className="gap-1 mt-md">
+        <Group className="gap-1 mt-md justify-center md:justify-start">
             {badges.map((badge, i) =>
                 <Badge
                     className="wl-primary-dark-on-light"
