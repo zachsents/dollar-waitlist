@@ -71,7 +71,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                     {waitlist?.description}
                                 </Text>
                             </Stack>
-                            <Stack className="gap-10" id="showcase">
+                            <Stack className="gap-10 scroll-m-20" id="showcase">
                                 <SectionLabel label="Showcase" slug="showcase">
                                     {/* <ActionIcon
                                         variant="transparent" size="xl"
@@ -86,7 +86,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                     labels={waitlist?.demo?.labels}
                                 />
                             </Stack>
-                            <Stack className="gap-10" id="benefits">
+                            <Stack className="gap-10 scroll-m-20" id="benefits">
                                 <SectionLabel label="Benefits" slug="benefits" />
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-16">
                                     {waitlist?.benefits?.map((benefit, i) =>
@@ -94,7 +94,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                     )}
                                 </div>
                             </Stack>
-                            <Stack className="gap-10" id="testimonials">
+                            <Stack className="gap-10 scroll-m-20" id="testimonials">
                                 <SectionLabel label="Testimonials" slug="testimonials" />
                                 <Stack className="gap-xl">
                                     {/* <Title order={4}>Hear from others</Title> */}
@@ -105,7 +105,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                     </div>
                                 </Stack>
                             </Stack>
-                            <Stack className="gap-10" id="team">
+                            <Stack className="gap-10 scroll-m-20" id="team">
                                 <SectionLabel label="Team" slug="team" />
                                 <Stack className="gap-xl">
                                     {waitlist?.team?.map((member, i) =>
