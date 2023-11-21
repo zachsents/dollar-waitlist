@@ -1,14 +1,15 @@
 import { Anchor, Center, Group, Menu } from "@mantine/core"
-import { useCurrentWaitlistCSSVariables } from "@web/modules/hooks"
+import { useWindowScroll } from "@mantine/hooks"
+import { useCurrentWaitlist, useWaitlistCSSVariables } from "@web/modules/hooks"
+import classNames from "classnames"
 import { TbMenu2 } from "react-icons/tb"
 import Brand from "./Brand"
-import { useWindowScroll } from "@mantine/hooks"
-import classNames from "classnames"
 
 
 export default function Header() {
 
-    const cssVariables = useCurrentWaitlistCSSVariables()
+    const [waitlist] = useCurrentWaitlist()
+    const cssVariables = useWaitlistCSSVariables(waitlist)
 
     const [{ y: windowScroll }] = useWindowScroll()
     const isScrolled = windowScroll > 25

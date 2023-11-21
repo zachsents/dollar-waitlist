@@ -1,8 +1,8 @@
 import { GoogleAuthProvider, signOut as _signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { useUser } from "reactfire"
 import { fire } from "."
+import { useUser } from "@zachsents/fire-query"
 
 
 export async function signInWithGoogle() {
@@ -39,8 +39,9 @@ export async function signOut() {
 
 
 export function useMustBeSignedIn(redirect = "/login") {
-    const { data: user, hasEmitted } = useUser()
     const router = useRouter()
+    const { data: user } = useUser()
+    const hasEmitted = user !== undefined
 
     useEffect(() => {
         if (hasEmitted && !user && redirect)
@@ -52,8 +53,9 @@ export function useMustBeSignedIn(redirect = "/login") {
 
 
 export function useMustNotBeSignedIn(redirect = "/") {
-    const { data: user, hasEmitted } = useUser()
     const router = useRouter()
+    const { data: user } = useUser()
+    const hasEmitted = user !== undefined
 
     useEffect(() => {
         if (hasEmitted && user && redirect)
