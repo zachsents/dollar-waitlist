@@ -44,10 +44,10 @@ export default function Document() {
 
                 {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta property="twitter:title" content={headline} />
-                <meta property="twitter:creator" content="@Zach_Sents" />
-                <meta property="twitter:image" content="/assets/og.png" />
-                <meta property="twitter:description" content={description} />
+                <meta name="twitter:title" content={headline} />
+                <meta name="twitter:creator" content="@Zach_Sents" />
+                <meta name="twitter:image" content="/assets/og.png" />
+                <meta name="twitter:description" content={description} />
 
                 {/* Assets */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
