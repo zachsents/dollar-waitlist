@@ -29,3 +29,16 @@ export function useWaitlistCSSVariables(waitlist) {
         }
     }, [theme, waitlist])
 }
+
+
+const defaultSectionLabels = {
+    "showcase": "Showcase",
+    "benefits": "Benefits",
+    "testimonials": "Testimonials",
+    "team": "Team",
+}
+
+export function useSectionLabel(slug) {
+    const [waitlist] = useCurrentWaitlist()
+    return waitlist?.sectionLabels?.[slug] || defaultSectionLabels[slug] || ""
+}

@@ -1,6 +1,6 @@
 import { Anchor, Center, Group, Menu } from "@mantine/core"
 import { useWindowScroll } from "@mantine/hooks"
-import { useCurrentWaitlist, useWaitlistCSSVariables } from "@web/modules/hooks"
+import { useCurrentWaitlist, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
 import classNames from "classnames"
 import { TbMenu2 } from "react-icons/tb"
 import Brand from "./Brand"
@@ -23,10 +23,10 @@ export default function Header() {
                 )} />
 
                 <Group noWrap className="hidden lg:flex gap-lg">
-                    <NavLink href="#showcase">Showcase</NavLink>
-                    <NavLink href="#benefits">Benefits</NavLink>
-                    <NavLink href="#testimonials">Testimonials</NavLink>
-                    <NavLink href="#team">Team</NavLink>
+                    <SectionNavLink slug="showcase" />
+                    <SectionNavLink slug="benefits" />
+                    <SectionNavLink slug="testimonials" />
+                    <SectionNavLink slug="team" />
                 </Group>
 
                 <Menu position="bottom-end" shadow="xl" offset={0} classNames={{
@@ -52,12 +52,20 @@ export default function Header() {
 
 
 function NavLink({ ...props }) {
-
     return (
         <Anchor
             className="text-dark font-bold hover:text-[var(--wl-primary)] no-underline hover:no-underline"
             // component={Link}
             {...props}
         />
+    )
+}
+
+function SectionNavLink({ slug, defaultLabel = "" }) {
+
+    const label = useSectionLabel(slug) || defaultLabel
+
+    return (
+        <NavLink href={`#${slug}`}>{label}</NavLink>
     )
 }

@@ -8,7 +8,7 @@ import TeamMemberCard from "@web/components/TeamMemberCard"
 import Tweet from "@web/components/Tweet"
 import { fire } from "@web/modules/firebase"
 import { useStorageUrl } from "@web/modules/firebase/storage"
-import { CurrentWaitlistContext, useWaitlistCSSVariables } from "@web/modules/hooks"
+import { CurrentWaitlistContext, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
 import classNames from "classnames"
 import { doc, getDoc } from "firebase/firestore"
 import { motion } from "framer-motion"
@@ -73,7 +73,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                 </Text>
                             </Stack>
                             <Stack className="gap-10 scroll-m-20" id="showcase">
-                                <SectionLabel label="Showcase" slug="showcase">
+                                <SectionLabel slug="showcase">
                                     {/* <ActionIcon
                                         variant="transparent" size="xl"
                                         className="pointer-events-auto text-3xl text-gray-400 hover:text-gray transition-colors"
@@ -91,7 +91,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                         <Text className="text-sm font-bold text-gray">
                                             Other Features:
                                         </Text>
-                                        <ul className="columns-2 gap-x-md m-0 p-0">
+                                        <ul className="columns-1 lg:columns-2 gap-x-md m-0 p-0">
                                             {waitlist?.otherFeatures?.map((feature, i) =>
                                                 <li className="flex items-center gap-md mb-md" key={i}>
                                                     <TbCheck className="text-lg text-[var(--wl-primary)] shrink-0" />
@@ -102,7 +102,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                     </Stack>}
                             </Stack>
                             <Stack className="gap-10 scroll-m-20" id="benefits">
-                                <SectionLabel label="Benefits" slug="benefits" />
+                                <SectionLabel slug="benefits" />
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-16">
                                     {waitlist?.benefits?.map((benefit, i) =>
                                         <Benefit {...benefit} key={i} />
@@ -110,18 +110,17 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                 </div>
                             </Stack>
                             <Stack className="gap-10 scroll-m-20" id="testimonials">
-                                <SectionLabel label="Testimonials" slug="testimonials" />
+                                <SectionLabel slug="testimonials" />
                                 <Stack className="gap-xl">
-                                    {/* <Title order={4}>Hear from others</Title> */}
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8">
+                                    <div className="columns-1 lg:columns-2 gap-x-10">
                                         {waitlist?.tweets?.map(tweetId =>
-                                            <Tweet id={tweetId} key={tweetId} />
+                                            <Tweet id={tweetId} className="mb-10" key={tweetId} />
                                         )}
                                     </div>
                                 </Stack>
                             </Stack>
                             <Stack className="gap-10 scroll-m-20" id="team">
-                                <SectionLabel label="Team" slug="team" />
+                                <SectionLabel slug="team" />
                                 <Stack className="gap-xl">
                                     {waitlist?.team?.map((member, i) =>
                                         <TeamMemberCard {...member} key={i} />
@@ -172,7 +171,10 @@ export default function PreviewWaitlistPage({ waitlist }) {
 }
 
 
-function SectionLabel({ label, children }) {
+function SectionLabel({ defaultLabel = "", slug, children }) {
+
+    const label = useSectionLabel(slug) || defaultLabel
+
     return (
         <div
             className="flex justify-end items-center gap-xl sticky top-20 lg:top-10 z-10 pointer-events-none"

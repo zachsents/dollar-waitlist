@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react"
 import { useMutation, useQuery } from "react-query"
 
 
-export default function Tweet({ url, id }) {
+export default function Tweet({ url, id, ...props }) {
 
     const [twitterGlobal] = useTwitterGlobal()
 
@@ -30,7 +30,7 @@ export default function Tweet({ url, id }) {
     }, [id, ref.current, !!twitterGlobal])
 
     return (
-        <div>
+        <div {...props}>
             <div className="[&_.twitter-tweet]:!m-0" ref={ref} />
             {renderTweetMutation.isLoading &&
                 <Skeleton className="w-full h-40" />}
