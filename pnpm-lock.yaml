@@ -59,9 +59,7 @@ importers:
       '@types/node': ^17.0.12
       '@types/react': ^18.0.22
       '@types/react-dom': ^18.0.7
-      '@zachsents/build-workspace-deps': ^1.0.0
       '@zachsents/fire-query': 1.2.4
-      '@zachsents/next-firebase-rewrites': '*'
       autoprefixer: ^10.4.14
       classnames: ^2.3.2
       dayjs: ^1.11.9
@@ -106,8 +104,6 @@ importers:
       '@types/node': 17.0.45
       '@types/react': 18.2.5
       '@types/react-dom': 18.2.3
-      '@zachsents/build-workspace-deps': 1.0.0
-      '@zachsents/next-firebase-rewrites': 1.1.1
       autoprefixer: 10.4.14_postcss@8.4.27
       eslint-config-custom: link:../eslint-config-custom
       postcss: 8.4.27
@@ -2357,13 +2353,6 @@ packages:
       - react-dom
       - react-native
     dev: false
-
-  /@zachsents/next-firebase-rewrites/1.1.1:
-    resolution: {integrity: sha512-Jw77hVjF+/4B/bHEMq8ZnnA3gINRCSFDrDHsAWWEFDVKCIUmzDg+eobsCgwwsffoF0PkwgPU3XYtqqeERQzOew==}
-    hasBin: true
-    dependencies:
-      yargs: 17.7.2
-    dev: true
 
   /abort-controller/3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}

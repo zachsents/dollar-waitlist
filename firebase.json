@@ -15,16 +15,6 @@
         "rules": "firestore.rules",
         "indexes": "firestore.indexes.json"
     },
-    "hosting": {
-        "public": "web/out",
-        "ignore": [
-            "firebase.json",
-            "**/.*",
-            "**/node_modules/**"
-        ],
-        "rewrites": [],
-        "cleanUrls": true
-    },
     "storage": {
         "rules": "storage.rules"
     },
