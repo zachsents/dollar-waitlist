@@ -16,7 +16,9 @@ export default function Tweet({ url, id }) {
     const renderTweetMutation = useMutation({
         mutationFn: async () => {
             ref.current.textContent = ""
-            await twitterGlobal.widgets.createTweet(id, ref.current)
+            await twitterGlobal.widgets.createTweet(id, ref.current, {
+                conversation: "none",
+            })
         },
     })
 
