@@ -4,7 +4,7 @@ import classNames from "classnames"
 import { useEffect, useState } from "react"
 
 
-export default function HeroDemo({ imageSource, labels }) {
+export default function HeroDemo({ imageSource, labels, adjustContainer = false }) {
 
     const [containerTopMargin, setContainerTopMargin] = useState(0)
     const [containerBottomMargin, setContainerBottomMargin] = useState(0)
@@ -17,10 +17,10 @@ export default function HeroDemo({ imageSource, labels }) {
         <div className="w-full">
             <div
                 className="relative w-full"
-                style={{
+                style={adjustContainer ? {
                     marginTop: containerTopMargin ? `${containerTopMargin}px` : 0,
                     marginBottom: containerBottomMargin ? `${containerBottomMargin}px` : 0,
-                }}
+                } : {}}
                 ref={el => {
                     const { top: containerTop, bottom: containerBottom } = el?.getBoundingClientRect() || {}
                     const { top: absTop, bottom: absBottom } = getAbsoluteVerticalBounds(el)
