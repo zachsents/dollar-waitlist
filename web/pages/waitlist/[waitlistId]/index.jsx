@@ -1,6 +1,7 @@
-import { Anchor, Center, Divider, Overlay, Stack, Text, Title } from "@mantine/core"
+import { Anchor, Button, Center, Divider, Overlay, Stack, Text, Title } from "@mantine/core"
 import { useClickOutside } from "@mantine/hooks"
 import Benefit from "@web/components/Benefit"
+import CTAButton from "@web/components/CTAButton"
 import Header from "@web/components/Header"
 import HeroDemo from "@web/components/HeroDemo"
 import JoinCard from "@web/components/JoinCard"
@@ -71,6 +72,13 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                 <Text className="text-xl">
                                     {waitlist?.description}
                                 </Text>
+
+                                <CTAButton
+                                    className="lg:hidden shadow-md self-start mt-md"
+                                    onClick={() => setShowingMobileJoinCard(true)}
+                                >
+                                    Join the Waitlist
+                                </CTAButton>
                             </Stack>
                             <Stack className="gap-10 scroll-m-20" id="showcase">
                                 <SectionLabel slug="showcase">

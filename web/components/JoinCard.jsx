@@ -1,4 +1,4 @@
-import { Badge, Button, Center, Group, Kbd, Paper, Progress, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
+import { Badge, Center, Group, Kbd, Paper, Progress, Stack, Text, TextInput, ThemeIcon } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { modals } from "@mantine/modals"
@@ -6,9 +6,9 @@ import { useCurrentWaitlist } from "@web/modules/hooks"
 import { SUBMITTED_EMAIL_LS_KEY, SUCCESSFUL_EMAIL_LS_KEY, formatNumber } from "@web/modules/util"
 import classNames from "classnames"
 import { useRouter } from "next/router"
-import { useMemo } from "react"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { TbBallpen, TbCheck, TbGift, TbMail } from "react-icons/tb"
+import CTAButton from "./CTAButton"
 
 
 export default function JoinCard() {
@@ -93,17 +93,14 @@ export default function JoinCard() {
                                 {...form.getInputProps("email")}
                             />
 
-                            <Button
-                                className={classNames(
-                                    "sketch-border hover:scale-105 hover:shadow-lg transition bg-[var(--wl-secondary)] hover:bg-[var(--wl-secondary)]",
-                                    { "shadow-md": form.isValid() },
-                                )}
-                                size="xl" radius="xl" rightIcon={<Text className="font-bold">$1</Text>}
+                            <CTAButton
+                                className={classNames({ "shadow-md": form.isValid() })}
                                 disabled={!form.isValid()}
                                 type="submit"
+                                showPrice
                             >
                                 Join Waitlist
-                            </Button>
+                            </CTAButton>
                         </>}
 
 
