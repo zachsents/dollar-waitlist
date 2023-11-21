@@ -1,4 +1,4 @@
-import { Anchor, Button, Center, Divider, Overlay, Stack, Text, Title } from "@mantine/core"
+import { Anchor, Center, Divider, Overlay, Stack, Text, Title } from "@mantine/core"
 import { useClickOutside } from "@mantine/hooks"
 import Benefit from "@web/components/Benefit"
 import CTAButton from "@web/components/CTAButton"
