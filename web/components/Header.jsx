@@ -22,7 +22,7 @@ export default function Header() {
                     isScrolled ? "opacity-50" : "opacity-100"
                 )} />
 
-                <Group noWrap className="hidden md:flex gap-lg">
+                <Group noWrap className="hidden lg:flex gap-lg">
                     <NavLink href="#showcase">Showcase</NavLink>
                     <NavLink href="#benefits">Benefits</NavLink>
                     <NavLink href="#testimonials">Testimonials</NavLink>
@@ -34,11 +34,11 @@ export default function Header() {
                     dropdown: "py-sm",
                 }}>
                     <Menu.Target>
-                        <Center className="md:hidden text-3xl p-6 -m-6">
+                        <Center className="lg:hidden text-3xl p-6 -m-6">
                             <TbMenu2 />
                         </Center>
                     </Menu.Target>
-                    <Menu.Dropdown className="md:hidden">
+                    <Menu.Dropdown className="lg:hidden">
                         <Menu.Item component="a" href="#showcase">Showcase</Menu.Item>
                         <Menu.Item component="a" href="#benefits">Benefits</Menu.Item>
                         <Menu.Item component="a" href="#testimonials">Testimonials</Menu.Item>

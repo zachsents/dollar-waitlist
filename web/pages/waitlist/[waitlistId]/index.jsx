@@ -1,4 +1,5 @@
-import { Anchor, Divider, Overlay, Portal, Stack, Text, Title } from "@mantine/core"
+import { Anchor, Center, Divider, Overlay, Stack, Text, Title } from "@mantine/core"
+import { useClickOutside } from "@mantine/hooks"
 import Benefit from "@web/components/Benefit"
 import Header from "@web/components/Header"
 import HeroDemo from "@web/components/HeroDemo"
@@ -8,11 +9,11 @@ import Tweet from "@web/components/Tweet"
 import { fire } from "@web/modules/firebase"
 import { useStorageUrl } from "@web/modules/firebase/storage"
 import { CurrentWaitlistContext, useWaitlistCSSVariables } from "@web/modules/hooks"
+import classNames from "classnames"
 import { doc, getDoc } from "firebase/firestore"
+import { motion } from "framer-motion"
 import Head from "next/head"
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { useClickOutside } from "@mantine/hooks"
 
 
 export async function getServerSideProps(context) {
@@ -39,6 +40,8 @@ export default function PreviewWaitlistPage({ waitlist }) {
     const [showingMobileJoinCard, setShowingMobileJoinCard] = useState(false)
     const mobileCardRef = useClickOutside(() => setShowingMobileJoinCard(false))
 
+    // const [demoPlaying, setDemoPlaying] = useState(true)
+
     return (<>
         <Head>
             <title key="title">
@@ -50,7 +53,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
             <Header />
 
             <div
-                className="bg-gray-50 glowy-bg px-xl md:px-20"
+                className="bg-gray-50 glowy-bg px-xl lg:px-20"
                 style={cssVariables}
             >
                 <div className="flex relative gap-20 justify-center w-full max-w-6xl mx-auto">
@@ -69,25 +72,33 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                 </Text>
                             </Stack>
                             <Stack className="gap-10" id="showcase">
-                                <SectionLabel slug="showcase">Showcase</SectionLabel>
+                                <SectionLabel label="Showcase" slug="showcase">
+                                    {/* <ActionIcon
+                                        variant="transparent" size="xl"
+                                        className="pointer-events-auto text-3xl text-gray-400 hover:text-gray transition-colors"
+                                        onClick={() => setDemoPlaying(!demoPlaying)}
+                                    >
+                                        {demoPlaying ? <TbPlayerPause /> : <TbPlayerPlay />}
+                                    </ActionIcon> */}
+                                </SectionLabel>
                                 <HeroDemo
                                     imageSource={demoImageUrlQuery.data}
                                     labels={waitlist?.demo?.labels}
                                 />
                             </Stack>
                             <Stack className="gap-10" id="benefits">
-                                <SectionLabel slug="benefits">Benefits</SectionLabel>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-16">
+                                <SectionLabel label="Benefits" slug="benefits" />
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-16">
                                     {waitlist?.benefits?.map((benefit, i) =>
                                         <Benefit {...benefit} key={i} />
                                     )}
                                 </div>
                             </Stack>
                             <Stack className="gap-10" id="testimonials">
-                                <SectionLabel slug="testimonials">Testimonials</SectionLabel>
+                                <SectionLabel label="Testimonials" slug="testimonials" />
                                 <Stack className="gap-xl">
                                     {/* <Title order={4}>Hear from others</Title> */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8">
                                         {waitlist?.tweets?.map(tweetId =>
                                             <Tweet id={tweetId} key={tweetId} />
                                         )}
@@ -95,7 +106,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                                 </Stack>
                             </Stack>
                             <Stack className="gap-10" id="team">
-                                <SectionLabel slug="team">Team</SectionLabel>
+                                <SectionLabel label="Team" slug="team" />
                                 <Stack className="gap-xl">
                                     {waitlist?.team?.map((member, i) =>
                                         <TeamMemberCard {...member} key={i} />
@@ -110,37 +121,35 @@ export default function PreviewWaitlistPage({ waitlist }) {
                     </div>
 
                     <div
-                        className="hidden md:flex grow max-w-[24rem] h-screen sticky top-0 py-12 flex-col gap-16 justify-center"
+                        className="hidden lg:flex grow max-w-[24rem] h-screen sticky top-0 py-12 flex-col gap-16 justify-center"
                     >
                         <JoinCard />
                     </div>
 
-                    <div
-                        className="md:hidden fixed left-1/2 top-full -translate-x-1/2 -translate-y-40 z-[100]"
-                        onPointerDown={() => !showingMobileJoinCard && setShowingMobileJoinCard(true)}
-                    >
+                    <Center className="lg:hidden fixed left-0 top-0 w-screen h-screen z-[100] pointer-events-none px-xl">
+                        <Overlay
+                            className={classNames(
+                                "fixed z-[1] transition-opacity",
+                                showingMobileJoinCard ?
+                                    "opacity-50 duration-500 pointer-events-auto" :
+                                    "opacity-0 duration-100 pointer-events-none",
+                            )}
+                        />
+
                         <motion.div
                             variants={{
-                                hidden: { y: 0 },
-                                visible: { y: "-100%" },
+                                hidden: { y: "calc(50vh + 50% - 8rem)" },
+                                visible: { y: 0 },
                             }}
+                            className="z-[2] pointer-events-auto"
                             initial="hidden"
                             animate={showingMobileJoinCard ? "visible" : "hidden"}
+                            onPointerDown={() => !showingMobileJoinCard && setShowingMobileJoinCard(true)}
                             ref={mobileCardRef}
                         >
                             <JoinCard />
                         </motion.div>
-
-                        {showingMobileJoinCard &&
-                            <Portal>
-                                <Overlay
-                                    component={motion.div}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 0.5 }}
-                                    className="fixed z-[99]"
-                                />
-                            </Portal>}
-                    </div>
+                    </Center>
                 </div>
             </div>
         </CurrentWaitlistContext.Provider>
@@ -148,17 +157,18 @@ export default function PreviewWaitlistPage({ waitlist }) {
 }
 
 
-function SectionLabel({ children }) {
+function SectionLabel({ label, children }) {
     return (
         <div
-            className="flex justify-end sticky top-20 md:top-10 z-10 pointer-events-none"
+            className="flex justify-end items-center gap-xl sticky top-20 lg:top-10 z-10 pointer-events-none"
         >
+            {children}
             <Text
                 className="text-center text-gray text-sm uppercase font-bold p-md rounded-full border-dashed border-gray border-1 cursor-pointer hover:text-dark hover:border-dark transition"
             // component="a"
             // href={`#${slug}`}
             >
-                {children}
+                {label}
             </Text>
         </div>
     )

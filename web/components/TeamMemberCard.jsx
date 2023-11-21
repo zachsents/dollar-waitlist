@@ -8,7 +8,7 @@ export default function TeamMemberCard({ avatar, name, title, linkedin, twitter,
     const { data: avatarUrl } = useStorageUrl(avatar)
 
     const badgeGroup =
-        <Group className="gap-1 mt-md justify-center md:justify-start">
+        <Group className="gap-1 mt-md justify-center lg:justify-start">
             {badges.map((badge, i) =>
                 <Badge
                     className="wl-primary-dark-on-light"
@@ -20,8 +20,8 @@ export default function TeamMemberCard({ avatar, name, title, linkedin, twitter,
         </Group>
 
     return (
-        <Card withBorder className="rounded-xl px-xl py-10 md:p-10 shadow-sm">
-            <Group noWrap className="flex-col md:flex-row justify-between">
+        <Card withBorder className="rounded-xl px-xl py-10 lg:p-10 shadow-sm">
+            <Group noWrap className="flex-col lg:flex-row justify-between">
                 <Group noWrap className="gap-xl">
                     <Avatar src={avatarUrl} className="h-20 w-auto aspect-square rounded-full shrink-0" />
 
@@ -29,13 +29,13 @@ export default function TeamMemberCard({ avatar, name, title, linkedin, twitter,
                         <Text className="font-medium text-lg">{name}</Text>
                         <Text className="text-gray">{title}</Text>
 
-                        <div className="hidden md:block">
+                        <div className="hidden lg:block">
                             {badgeGroup}
                         </div>
                     </div>
                 </Group>
 
-                <div className="md:hidden">
+                <div className="lg:hidden">
                     {badgeGroup}
                 </div>
 
