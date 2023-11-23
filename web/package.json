@@ -30,7 +30,7 @@
         "react-icons": "^4.10.1",
         "react-query": "^3.39.3",
         "shared": "workspace:*",
-        "zustand": "^4.3.9"
+        "zustand": "^4.4.6"
     },
     "devDependencies": {
         "@types/node": "^17.0.12",
