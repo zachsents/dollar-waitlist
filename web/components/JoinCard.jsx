@@ -82,6 +82,10 @@ export default function JoinCard() {
                         </> : <>
                             <JoinCardHeading icon={TbBallpen}>Join the waitlist!</JoinCardHeading>
 
+                            <Text className="text-center text-gray">
+                                You'll get early access to the app.
+                            </Text>
+
                             <TextInput
                                 placeholder="Email"
                                 size="lg" radius="xl"
