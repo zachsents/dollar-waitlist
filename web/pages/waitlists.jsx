@@ -61,7 +61,7 @@ export default function DashboardPage() {
                                         <div>
                                             <Title order={3} className="text-xl font-bold line-clamp-1">{waitlist.name}</Title>
                                             <Text className="line-clamp-2">
-                                                {waitlist.headline}
+                                                {waitlist.content.headline}
                                             </Text>
                                         </div>
                                         <Text className="font-bold text-2xl">

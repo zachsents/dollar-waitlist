@@ -40,5 +40,5 @@ const defaultSectionLabels = {
 
 export function useSectionLabel(slug) {
     const [waitlist] = useCurrentWaitlist()
-    return waitlist?.sectionLabels?.[slug] || defaultSectionLabels[slug] || ""
+    return waitlist?.content.sectionLabels?.[slug] || defaultSectionLabels[slug] || ""
 }

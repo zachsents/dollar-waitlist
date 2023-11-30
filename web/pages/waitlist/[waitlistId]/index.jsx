@@ -16,6 +16,8 @@ import { TbCheck } from "react-icons/tb"
 
 export async function getServerSideProps(context) {
 
+
+
     const waitlist = await getDoc(doc(fire.db, "waitlists", context.params.waitlistId))
         .then(doc => doc.data())
 
@@ -59,10 +61,10 @@ export default function WaitlistPage({ waitlist }) {
                                     Hey {waitlist?.target}!
                                 </Text>
                                 <Title order={1} className="text-5xl">
-                                    {waitlist?.headline}
+                                    {waitlist?.content.headline}
                                 </Title>
                                 <Text className="text-xl">
-                                    {waitlist?.description}
+                                    {waitlist?.content.description}
                                 </Text>
 
                                 <CTAButton
@@ -76,18 +78,18 @@ export default function WaitlistPage({ waitlist }) {
                                 <SectionLabel slug="showcase" />
 
                                 <div className="columns-1 lg:columns-2 gap-10">
-                                    {waitlist?.features?.map((feature, i) =>
+                                    {waitlist?.content.features?.map((feature, i) =>
                                         <Feature {...feature} className="mb-10" key={i} />
                                     )}
                                 </div>
 
-                                {!!waitlist?.otherFeatures &&
+                                {!!waitlist?.content.otherFeatures &&
                                     <Stack>
                                         <Text className="text-sm font-bold text-gray">
                                             Other Features:
                                         </Text>
                                         <ul className="columns-1 lg:columns-2 gap-x-md m-0 p-0">
-                                            {waitlist?.otherFeatures?.map((feature, i) =>
+                                            {waitlist?.content.otherFeatures?.map((feature, i) =>
                                                 <li className="flex items-center gap-md mb-md" key={i}>
                                                     <TbCheck className="text-lg text-[var(--wl-primary)] shrink-0" />
                                                     <Text className="text-lg">{feature}</Text>
@@ -99,7 +101,7 @@ export default function WaitlistPage({ waitlist }) {
                             <Stack className="gap-10 scroll-m-20" id="benefits">
                                 <SectionLabel slug="benefits" />
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-16">
-                                    {waitlist?.benefits?.map((benefit, i) =>
+                                    {waitlist?.content.benefits?.map((benefit, i) =>
                                         <Benefit {...benefit} key={i} />
                                     )}
                                 </div>
@@ -108,7 +110,7 @@ export default function WaitlistPage({ waitlist }) {
                                 <SectionLabel slug="testimonials" />
                                 <Stack className="gap-xl">
                                     <div className="columns-1 lg:columns-2 gap-x-10">
-                                        {waitlist?.tweets?.map(tweetId =>
+                                        {waitlist?.content.tweets?.map(tweetId =>
                                             <Tweet id={tweetId} className="mb-10" key={tweetId} />
                                         )}
                                     </div>
@@ -117,7 +119,7 @@ export default function WaitlistPage({ waitlist }) {
                             <Stack className="gap-10 scroll-m-20" id="team">
                                 <SectionLabel slug="team" />
                                 <Stack className="gap-xl">
-                                    {waitlist?.team?.map((member, i) =>
+                                    {waitlist?.content.team?.map((member, i) =>
                                         <TeamMemberCard {...member} key={i} />
                                     )}
                                 </Stack>
