@@ -32,8 +32,9 @@ export function useWaitlistCSSVariables(waitlist) {
 
 
 const defaultSectionLabels = {
-    "showcase": "Showcase",
+    "demo": "Demo",
     "benefits": "Benefits",
+    "features": "Features",
     "testimonials": "Testimonials",
     "team": "Team",
 }

@@ -1,22 +1,19 @@
 import { Anchor, Divider, Stack, Text, Title } from "@mantine/core"
 import Benefit from "@web/components/Benefit"
 import CTAButton from "@web/components/CTAButton"
-import Feature from "@web/components/Feature"
+import FeatureGroup from "@web/components/FeatureGroup"
 import Header from "@web/components/Header"
 import JoinCard from "@web/components/JoinCard"
 import TeamMemberCard from "@web/components/TeamMemberCard"
 import Tweet from "@web/components/Tweet"
 import { fire } from "@web/modules/firebase"
-import { CurrentWaitlistContext, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
+import { CurrentWaitlistContext, useCurrentWaitlist, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
 import { useStore } from "@web/modules/store"
 import { doc, getDoc } from "firebase/firestore"
 import Head from "next/head"
-import { TbCheck } from "react-icons/tb"
 
 
 export async function getServerSideProps(context) {
-
-
 
     const waitlist = await getDoc(doc(fire.db, "waitlists", context.params.waitlistId))
         .then(doc => doc.data())
@@ -74,56 +71,12 @@ export default function WaitlistPage({ waitlist }) {
                                     Join the Waitlist
                                 </CTAButton>
                             </Stack>
-                            <Stack className="gap-10 scroll-m-20" id="showcase">
-                                <SectionLabel slug="showcase" />
 
-                                <div className="columns-1 lg:columns-2 gap-10">
-                                    {waitlist?.content.features?.map((feature, i) =>
-                                        <Feature {...feature} className="mb-10" key={i} />
-                                    )}
-                                </div>
+                            {waitlist?.content.sections.map(section => {
+                                const SectionComponent = sectionComponents[section]
+                                return <SectionComponent key={section} />
+                            })}
 
-                                {!!waitlist?.content.otherFeatures &&
-                                    <Stack>
-                                        <Text className="text-sm font-bold text-gray">
-                                            Other Features:
-                                        </Text>
-                                        <ul className="columns-1 lg:columns-2 gap-x-md m-0 p-0">
-                                            {waitlist?.content.otherFeatures?.map((feature, i) =>
-                                                <li className="flex items-center gap-md mb-md" key={i}>
-                                                    <TbCheck className="text-lg text-[var(--wl-primary)] shrink-0" />
-                                                    <Text className="text-lg">{feature}</Text>
-                                                </li>
-                                            )}
-                                        </ul>
-                                    </Stack>}
-                            </Stack>
-                            <Stack className="gap-10 scroll-m-20" id="benefits">
-                                <SectionLabel slug="benefits" />
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-16">
-                                    {waitlist?.content.benefits?.map((benefit, i) =>
-                                        <Benefit {...benefit} key={i} />
-                                    )}
-                                </div>
-                            </Stack>
-                            <Stack className="gap-10 scroll-m-20" id="testimonials">
-                                <SectionLabel slug="testimonials" />
-                                <Stack className="gap-xl">
-                                    <div className="columns-1 lg:columns-2 gap-x-10">
-                                        {waitlist?.content.tweets?.map(tweetId =>
-                                            <Tweet id={tweetId} className="mb-10" key={tweetId} />
-                                        )}
-                                    </div>
-                                </Stack>
-                            </Stack>
-                            <Stack className="gap-10 scroll-m-20" id="team">
-                                <SectionLabel slug="team" />
-                                <Stack className="gap-xl">
-                                    {waitlist?.content.team?.map((member, i) =>
-                                        <TeamMemberCard {...member} key={i} />
-                                    )}
-                                </Stack>
-                            </Stack>
                             <Divider />
                             <Text className="text-center text-gray text-sm mb-48 lg:mb-0">
                                 This site was made with Dollar Waitlist. <Anchor href="https://dollarwaitlist.com" target="_blank">Create your own</Anchor>.
@@ -138,6 +91,78 @@ export default function WaitlistPage({ waitlist }) {
     </>)
 }
 
+
+const sectionComponents = {
+    demo: DemoSection,
+    benefits: BenefitsSection,
+    features: FeaturesSection,
+    testimonials: TestimonialsSection,
+    team: TeamSection,
+}
+
+
+function DemoSection() {
+
+}
+
+function BenefitsSection() {
+
+    const [waitlist] = useCurrentWaitlist()
+
+    return (
+        <Stack className="gap-10 scroll-m-20" id="benefits">
+            <SectionLabel slug="benefits" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-16">
+                {waitlist?.content.benefits?.map((benefit, i) =>
+                    <Benefit {...benefit} key={i} />
+                )}
+            </div>
+        </Stack>
+    )
+}
+
+function FeaturesSection() {
+    return (
+        <Stack className="gap-10 scroll-m-20" id="features">
+            <SectionLabel slug="features" />
+            <FeatureGroup />
+        </Stack>
+    )
+}
+
+function TestimonialsSection() {
+
+    const [waitlist] = useCurrentWaitlist()
+
+    return (
+        <Stack className="gap-10 scroll-m-20" id="testimonials">
+            <SectionLabel slug="testimonials" />
+            <Stack className="gap-xl">
+                <div className="columns-1 lg:columns-2 gap-x-10">
+                    {waitlist?.content.tweets?.map(tweetId =>
+                        <Tweet id={tweetId} className="mb-10" key={tweetId} />
+                    )}
+                </div>
+            </Stack>
+        </Stack>
+    )
+}
+
+function TeamSection() {
+
+    const [waitlist] = useCurrentWaitlist()
+
+    return (
+        <Stack className="gap-10 scroll-m-20" id="team">
+            <SectionLabel slug="team" />
+            <Stack className="gap-xl">
+                {waitlist?.content.team?.map((member, i) =>
+                    <TeamMemberCard {...member} key={i} />
+                )}
+            </Stack>
+        </Stack>
+    )
+}
 
 function SectionLabel({ defaultLabel = "", slug, children }) {
 

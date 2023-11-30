@@ -23,10 +23,9 @@ export default function Header() {
                 )} />
 
                 <Group noWrap className="hidden lg:flex gap-lg">
-                    <SectionNavLink slug="showcase" />
-                    <SectionNavLink slug="benefits" />
-                    <SectionNavLink slug="testimonials" />
-                    <SectionNavLink slug="team" />
+                    {waitlist?.content.sections.map(section =>
+                        <SectionNavLink slug={section} key={section} />
+                    )}
                 </Group>
 
                 <Menu position="bottom-end" shadow="xl" offset={0} classNames={{
@@ -39,10 +38,9 @@ export default function Header() {
                         </Center>
                     </Menu.Target>
                     <Menu.Dropdown className="lg:hidden">
-                        <Menu.Item component="a" href="#showcase">Showcase</Menu.Item>
-                        <Menu.Item component="a" href="#benefits">Benefits</Menu.Item>
-                        <Menu.Item component="a" href="#testimonials">Testimonials</Menu.Item>
-                        <Menu.Item component="a" href="#team">Team</Menu.Item>
+                        {waitlist?.content.sections.map(section =>
+                            <MobileSectionNavLink slug={section} key={section} />
+                        )}
                     </Menu.Dropdown>
                 </Menu>
             </Group>
@@ -67,5 +65,15 @@ function SectionNavLink({ slug, defaultLabel = "" }) {
 
     return (
         <NavLink href={`#${slug}`}>{label}</NavLink>
+    )
+}
+
+
+function MobileSectionNavLink({ slug, defaultLabel = "" }) {
+
+    const label = useSectionLabel(slug) || defaultLabel
+
+    return (
+        <Menu.Item component="a" href={`#${slug}`}>{label}</Menu.Item>
     )
 }
