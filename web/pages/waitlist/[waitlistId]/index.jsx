@@ -10,6 +10,7 @@ import { fire } from "@web/modules/firebase"
 import { CurrentWaitlistContext, useCurrentWaitlist, useLogTest, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
 import { useStore } from "@web/modules/store"
 import { doc, getDoc } from "firebase/firestore"
+import _ from "lodash"
 import Head from "next/head"
 
 
@@ -21,7 +22,7 @@ export async function getServerSideProps(context) {
     if (waitlist.tests?.length > 0) {
         const { id, ...randomTest } = waitlist.tests[Math.floor(Math.random() * waitlist.tests.length)]
         for (const [key, value] of Object.entries(randomTest)) {
-            waitlist[key] = value
+            _.set(waitlist, key, value)
         }
         waitlist.testId = id
     }
