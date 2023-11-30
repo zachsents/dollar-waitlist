@@ -33,7 +33,7 @@ export async function getServerSideProps(context) {
 }
 
 
-export default function PreviewWaitlistPage({ waitlist }) {
+export default function WaitlistPage({ waitlist }) {
 
     const cssVariables = useWaitlistCSSVariables(waitlist)
 
@@ -62,7 +62,7 @@ export default function PreviewWaitlistPage({ waitlist }) {
                     <div className="py-20 flex-1">
                         <Stack className="gap-36 w-full">
                             {/* <Brand /> */}
-                            <Stack className="my-20">
+                            <Stack className="mt-24">
                                 <Text className="font-bold text-[var(--wl-primary-dark)]">
                                     Hey {waitlist?.target}!
                                 </Text>
