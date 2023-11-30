@@ -28,7 +28,11 @@ export default function JoinForm() {
     })
 
     const handleSubmit = ({ email }) => {
-        logEvent(fire.analytics, "begin_checkout")
+        logEvent(fire.analytics, "begin_checkout", {
+            items: [{
+                item_id: waitlist.id,
+            }],
+        })
 
         const url = new URL(waitlist.stripePaymentLink)
         url.searchParams.set("prefilled_email", email)

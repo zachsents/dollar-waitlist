@@ -58,9 +58,10 @@ export function useLogTest(testId) {
     }, [])
 
     useEffect(() => {
-        if (mounted && testId && process.env.NODE_ENV === "production") {
+        if (mounted && testId) {
+            console.debug("Logging test", testId)
             logEvent(fire.analytics, "screen_view", {
-                test_id: testId,
+                screen_name: testId,
             })
         }
     }, [mounted, testId])
