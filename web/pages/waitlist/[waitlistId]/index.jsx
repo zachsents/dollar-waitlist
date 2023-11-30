@@ -1,13 +1,12 @@
 import { Anchor, Divider, Stack, Text, Title } from "@mantine/core"
 import Benefit from "@web/components/Benefit"
 import CTAButton from "@web/components/CTAButton"
+import Feature from "@web/components/Feature"
 import Header from "@web/components/Header"
-import HeroDemo from "@web/components/HeroDemo"
 import JoinCard from "@web/components/JoinCard"
 import TeamMemberCard from "@web/components/TeamMemberCard"
 import Tweet from "@web/components/Tweet"
 import { fire } from "@web/modules/firebase"
-import { useStorageUrl } from "@web/modules/firebase/storage"
 import { CurrentWaitlistContext, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
 import { useStore } from "@web/modules/store"
 import { doc, getDoc } from "firebase/firestore"
@@ -34,8 +33,6 @@ export default function WaitlistPage({ waitlist }) {
 
     const cssVariables = useWaitlistCSSVariables(waitlist)
 
-    const demoImageUrlQuery = useStorageUrl(waitlist?.demo?.image)
-
     const openMobileCard = useStore(s => s.openMobileCard)
 
     return (<>
@@ -57,7 +54,7 @@ export default function WaitlistPage({ waitlist }) {
                         <Stack className="gap-36 w-full">
                             {/* <Brand /> */}
 
-                            <Stack className="mt-24">
+                            <Stack className="mt-20 lg:mt-24">
                                 <Text className="font-bold text-[var(--wl-primary-dark)]">
                                     Hey {waitlist?.target}!
                                 </Text>
@@ -76,19 +73,14 @@ export default function WaitlistPage({ waitlist }) {
                                 </CTAButton>
                             </Stack>
                             <Stack className="gap-10 scroll-m-20" id="showcase">
-                                <SectionLabel slug="showcase">
-                                    {/* <ActionIcon
-                                        variant="transparent" size="xl"
-                                        className="pointer-events-auto text-3xl text-gray-400 hover:text-gray transition-colors"
-                                        onClick={() => setDemoPlaying(!demoPlaying)}
-                                    >
-                                        {demoPlaying ? <TbPlayerPause /> : <TbPlayerPlay />}
-                                    </ActionIcon> */}
-                                </SectionLabel>
-                                <HeroDemo
-                                    imageSource={demoImageUrlQuery.data}
-                                    labels={waitlist?.demo?.labels}
-                                />
+                                <SectionLabel slug="showcase" />
+
+                                <div className="columns-1 lg:columns-2 gap-10">
+                                    {waitlist?.features?.map((feature, i) =>
+                                        <Feature {...feature} className="mb-10" key={i} />
+                                    )}
+                                </div>
+
                                 {!!waitlist?.otherFeatures &&
                                     <Stack>
                                         <Text className="text-sm font-bold text-gray">
@@ -131,7 +123,7 @@ export default function WaitlistPage({ waitlist }) {
                                 </Stack>
                             </Stack>
                             <Divider />
-                            <Text className="text-center text-gray text-sm">
+                            <Text className="text-center text-gray text-sm mb-48 lg:mb-0">
                                 This site was made with Dollar Waitlist. <Anchor href="https://dollarwaitlist.com" target="_blank">Create your own</Anchor>.
                             </Text>
                         </Stack>
