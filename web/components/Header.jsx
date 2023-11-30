@@ -15,7 +15,7 @@ export default function Header() {
     const isScrolled = windowScroll > 25
 
     return (
-        <header className="fixed z-20 top-0 left-0 w-full p-xl" style={cssVariables}>
+        <header className="fixed z-30 top-0 left-0 w-full p-xl" style={cssVariables}>
             <Group noWrap className="gap-10 justify-between max-w-7xl mx-auto w-full">
                 <Brand className={classNames(
                     "hover:opacity-100 transition-opacity",

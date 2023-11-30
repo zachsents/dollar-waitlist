@@ -16,7 +16,7 @@ export default function JoinCard() {
 
     return (<>
         <div
-            className="hidden lg:flex grow max-w-[24rem] h-screen sticky z-[100] top-0 py-12 flex-col gap-16 justify-center"
+            className="hidden lg:flex grow max-w-[24rem] h-screen sticky z-20 top-0 py-12 flex-col gap-16 justify-center"
         >
             <Center
                 component={Paper} withBorder
