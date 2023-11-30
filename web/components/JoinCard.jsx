@@ -9,15 +9,12 @@ import { useRouter } from "next/router"
 import { useEffect, useMemo } from "react"
 import { TbBallpen, TbCheck, TbGift, TbMail } from "react-icons/tb"
 import CTAButton from "./CTAButton"
-import { useRef } from "react"
 
 
 export default function JoinCard() {
 
     const router = useRouter()
     const [waitlist] = useCurrentWaitlist()
-
-    const emailInputRef = useRef()
 
     const form = useForm({
         initialValues: {
@@ -34,11 +31,6 @@ export default function JoinCard() {
         localStorage.setItem(SUBMITTED_EMAIL_LS_KEY, email)
         router.push(url.toString())
     }
-
-    useEffect(() => {
-        if (form.errors.email)
-            emailInputRef.current?.focus()
-    }, [form.errors])
 
     useEffect(() => {
         localStorage.removeItem(SUBMITTED_EMAIL_LS_KEY)
@@ -99,7 +91,6 @@ export default function JoinCard() {
                                     input: "border-none outline outline-1 outline-transparent focus:outline-[var(--wl-primary)] focus:outline"
                                 }}
                                 {...form.getInputProps("email")}
-                                ref={emailInputRef}
                             />
 
                             <CTAButton
