@@ -1,5 +1,9 @@
 import { useMantineTheme } from "@mantine/core"
+import { useEffect } from "react"
+import { useState } from "react"
 import { createContext, useContext, useMemo } from "react"
+import { fire } from "./firebase"
+import { logEvent } from "firebase/analytics"
 
 
 export const CurrentWaitlistContext = createContext()
@@ -42,4 +46,22 @@ const defaultSectionLabels = {
 export function useSectionLabel(slug) {
     const [waitlist] = useCurrentWaitlist()
     return waitlist?.content.sectionLabels?.[slug] || defaultSectionLabels[slug] || ""
+}
+
+
+export function useLogTest(testId) {
+
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    useEffect(() => {
+        if (mounted && testId && process.env.NODE_ENV === "production") {
+            logEvent(fire.analytics, "screen_view", {
+                test_id: testId,
+            })
+        }
+    }, [mounted, testId])
 }

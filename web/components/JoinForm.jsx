@@ -9,6 +9,8 @@ import { useRouter } from "next/router"
 import { useEffect, useMemo } from "react"
 import { TbBallpen, TbCheck, TbGift, TbMail } from "react-icons/tb"
 import CTAButton from "./CTAButton"
+import { logEvent } from "firebase/analytics"
+import { fire } from "@web/modules/firebase"
 
 
 export default function JoinForm() {
@@ -26,6 +28,8 @@ export default function JoinForm() {
     })
 
     const handleSubmit = ({ email }) => {
+        logEvent(fire.analytics, "begin_checkout")
+
         const url = new URL(waitlist.stripePaymentLink)
         url.searchParams.set("prefilled_email", email)
         localStorage.setItem(SUBMITTED_EMAIL_LS_KEY, email)

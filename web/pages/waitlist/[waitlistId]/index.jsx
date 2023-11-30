@@ -7,7 +7,7 @@ import JoinCard from "@web/components/JoinCard"
 import TeamMemberCard from "@web/components/TeamMemberCard"
 import Tweet from "@web/components/Tweet"
 import { fire } from "@web/modules/firebase"
-import { CurrentWaitlistContext, useCurrentWaitlist, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
+import { CurrentWaitlistContext, useCurrentWaitlist, useLogTest, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
 import { useStore } from "@web/modules/store"
 import { doc, getDoc } from "firebase/firestore"
 import Head from "next/head"
@@ -17,6 +17,14 @@ export async function getServerSideProps(context) {
 
     const waitlist = await getDoc(doc(fire.db, "waitlists", context.params.waitlistId))
         .then(doc => doc.data())
+
+    if (waitlist.tests?.length > 0) {
+        const { id, ...randomTest } = waitlist.tests[Math.floor(Math.random() * waitlist.tests.length)]
+        for (const [key, value] of Object.entries(randomTest)) {
+            waitlist[key] = value
+        }
+        waitlist.testId = id
+    }
 
     return waitlist ? {
         props: {
@@ -33,6 +41,8 @@ export default function WaitlistPage({ waitlist }) {
     const cssVariables = useWaitlistCSSVariables(waitlist)
 
     const openMobileCard = useStore(s => s.openMobileCard)
+
+    useLogTest(waitlist.testId)
 
     return (<>
         <Head>
