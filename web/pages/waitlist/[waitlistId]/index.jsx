@@ -58,7 +58,7 @@ export default function WaitlistPage({ waitlist }) {
 
                             <Stack className="mt-20 lg:mt-24">
                                 <Text className="font-bold text-[var(--wl-primary-dark)]">
-                                    Hey {waitlist?.target}!
+                                    {waitlist?.content.eyebrow}
                                 </Text>
                                 <Title order={1} className="text-5xl">
                                     {waitlist?.content.headline}
