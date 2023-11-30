@@ -1,9 +1,6 @@
 import { useMantineTheme } from "@mantine/core"
-import { useEffect } from "react"
-import { useState } from "react"
-import { createContext, useContext, useMemo } from "react"
-import { fire } from "./firebase"
 import { getAnalytics, logEvent } from "firebase/analytics"
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 
 export const CurrentWaitlistContext = createContext()

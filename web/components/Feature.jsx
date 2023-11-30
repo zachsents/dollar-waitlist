@@ -54,7 +54,7 @@ function GradientImage({ children, color }) {
         <div className="w-full p-xl rounded-lg shadow-sm" style={{
             backgroundImage: `linear-gradient(to bottom right, ${firstColor}, ${secondColor})`,
         }}>
-            <div className="rounded-lg overflow-clip">
+            <div className="rounded-lg overflow-clip rotate-3">
                 {children}
             </div>
         </div>
