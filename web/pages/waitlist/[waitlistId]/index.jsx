@@ -1,5 +1,4 @@
-import { Anchor, Center, Divider, Overlay, Stack, Text, Title } from "@mantine/core"
-import { useClickOutside } from "@mantine/hooks"
+import { Anchor, Divider, Stack, Text, Title } from "@mantine/core"
 import Benefit from "@web/components/Benefit"
 import CTAButton from "@web/components/CTAButton"
 import Header from "@web/components/Header"
@@ -10,11 +9,9 @@ import Tweet from "@web/components/Tweet"
 import { fire } from "@web/modules/firebase"
 import { useStorageUrl } from "@web/modules/firebase/storage"
 import { CurrentWaitlistContext, useSectionLabel, useWaitlistCSSVariables } from "@web/modules/hooks"
-import classNames from "classnames"
+import { useStore } from "@web/modules/store"
 import { doc, getDoc } from "firebase/firestore"
-import { motion } from "framer-motion"
 import Head from "next/head"
-import { useState } from "react"
 import { TbCheck } from "react-icons/tb"
 
 
@@ -39,10 +36,7 @@ export default function WaitlistPage({ waitlist }) {
 
     const demoImageUrlQuery = useStorageUrl(waitlist?.demo?.image)
 
-    const [showingMobileJoinCard, setShowingMobileJoinCard] = useState(false)
-    const mobileCardRef = useClickOutside(() => setShowingMobileJoinCard(false))
-
-    // const [demoPlaying, setDemoPlaying] = useState(true)
+    const openMobileCard = useStore(s => s.openMobileCard)
 
     return (<>
         <Head>
@@ -62,6 +56,7 @@ export default function WaitlistPage({ waitlist }) {
                     <div className="py-20 flex-1">
                         <Stack className="gap-36 w-full">
                             {/* <Brand /> */}
+
                             <Stack className="mt-24">
                                 <Text className="font-bold text-[var(--wl-primary-dark)]">
                                     Hey {waitlist?.target}!
@@ -75,7 +70,7 @@ export default function WaitlistPage({ waitlist }) {
 
                                 <CTAButton
                                     className="lg:hidden shadow-md self-start mt-md"
-                                    onClick={() => setShowingMobileJoinCard(true)}
+                                    onClick={openMobileCard}
                                 >
                                     Join the Waitlist
                                 </CTAButton>
@@ -142,36 +137,7 @@ export default function WaitlistPage({ waitlist }) {
                         </Stack>
                     </div>
 
-                    <div
-                        className="hidden lg:flex grow max-w-[24rem] h-screen sticky top-0 py-12 flex-col gap-16 justify-center"
-                    >
-                        <JoinCard />
-                    </div>
-
-                    <Center className="lg:hidden fixed left-0 top-0 w-screen h-screen z-[100] pointer-events-none px-xl">
-                        <Overlay
-                            className={classNames(
-                                "fixed z-[1] transition-opacity",
-                                showingMobileJoinCard ?
-                                    "opacity-50 duration-500 pointer-events-auto" :
-                                    "opacity-0 duration-100 pointer-events-none",
-                            )}
-                        />
-
-                        <motion.div
-                            variants={{
-                                hidden: { y: "calc(50vh + 50% - 8rem)" },
-                                visible: { y: 0 },
-                            }}
-                            className="z-[2] pointer-events-auto"
-                            initial="hidden"
-                            animate={showingMobileJoinCard ? "visible" : "hidden"}
-                            onPointerDown={() => !showingMobileJoinCard && setShowingMobileJoinCard(true)}
-                            ref={mobileCardRef}
-                        >
-                            <JoinCard />
-                        </motion.div>
-                    </Center>
+                    <JoinCard />
                 </div>
             </div>
         </CurrentWaitlistContext.Provider>
