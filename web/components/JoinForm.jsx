@@ -5,12 +5,11 @@ import { modals } from "@mantine/modals"
 import { useCurrentWaitlist } from "@web/modules/hooks"
 import { SUBMITTED_EMAIL_LS_KEY, SUCCESSFUL_EMAIL_LS_KEY, formatNumber } from "@web/modules/util"
 import classNames from "classnames"
+import { getAnalytics, logEvent } from "firebase/analytics"
 import { useRouter } from "next/router"
 import { useEffect, useMemo } from "react"
 import { TbBallpen, TbCheck, TbGift, TbMail } from "react-icons/tb"
 import CTAButton from "./CTAButton"
-import { logEvent } from "firebase/analytics"
-import { fire } from "@web/modules/firebase"
 
 
 export default function JoinForm() {
@@ -28,10 +27,8 @@ export default function JoinForm() {
     })
 
     const handleSubmit = ({ email }) => {
-        logEvent(fire.analytics, "begin_checkout", {
-            items: [{
-                item_id: waitlist.id,
-            }],
+        logEvent(getAnalytics(), "begin_checkout", {
+            waitlist_id: waitlist.id,
         })
 
         const url = new URL(waitlist.stripePaymentLink)

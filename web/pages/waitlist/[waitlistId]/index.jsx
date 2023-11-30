@@ -19,6 +19,8 @@ export async function getServerSideProps(context) {
     const waitlist = await getDoc(doc(fire.db, "waitlists", context.params.waitlistId))
         .then(doc => doc.data())
 
+    waitlist.id = context.params.waitlistId
+
     if (waitlist.tests?.length > 0) {
         const { id, ...randomTest } = waitlist.tests[Math.floor(Math.random() * waitlist.tests.length)]
         for (const [key, value] of Object.entries(randomTest)) {

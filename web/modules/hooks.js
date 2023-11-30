@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { createContext, useContext, useMemo } from "react"
 import { fire } from "./firebase"
-import { logEvent } from "firebase/analytics"
+import { getAnalytics, logEvent } from "firebase/analytics"
 
 
 export const CurrentWaitlistContext = createContext()
@@ -60,8 +60,8 @@ export function useLogTest(testId) {
     useEffect(() => {
         if (mounted && testId) {
             console.debug("Logging test", testId)
-            logEvent(fire.analytics, "screen_view", {
-                screen_name: testId,
+            logEvent(getAnalytics(), "screen_view", {
+                test_id: testId,
             })
         }
     }, [mounted, testId])

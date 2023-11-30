@@ -1,12 +1,11 @@
 import { Center, Stack, Text, ThemeIcon } from "@mantine/core"
 import { useLocalStorage } from "@mantine/hooks"
 import { SUBMITTED_EMAIL_LS_KEY, SUCCESSFUL_EMAIL_LS_KEY } from "@web/modules/util"
+import { getAnalytics, logEvent } from "firebase/analytics"
+import { motion } from "framer-motion"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { TbCheck } from "react-icons/tb"
-import { motion } from "framer-motion"
-import { logEvent } from "firebase/analytics"
-import { fire } from "@web/modules/firebase"
 
 
 export default function WaitlistPaymentSuccessPage() {
@@ -30,7 +29,7 @@ export default function WaitlistPaymentSuccessPage() {
 
         localStorage.setItem(SUCCESSFUL_EMAIL_LS_KEY, submittedEmail)
         localStorage.removeItem(SUBMITTED_EMAIL_LS_KEY)
-        logEvent(fire.analytics, "purchase")
+        logEvent(getAnalytics(), "purchase")
         setTimeout(goToWaitlist, 1000)
     }, [submittedEmail, router.isReady])
 
