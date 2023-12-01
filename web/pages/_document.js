@@ -1,5 +1,6 @@
 import { additionalCSSVariables } from "@web/theme"
 import { Head, Html, Main, NextScript } from "next/document"
+import Script from "next/script"
 
 
 const headline = "Dollar Waitlist"
@@ -62,13 +63,10 @@ export default function Document() {
                 <script async src="https://platform.twitter.com/widgets.js" />
 
                 {/* Twitter Pixel */}
-                <script>
-                    !function(e,t,n,s,u,a){e.twq || (s = e.twq = function () {
-                        s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments)
-                    }, s.version = '1.1', s.queue = [], u = t.createElement(n), u.async = !0, u.src = 'https://static.ads-twitter.com/uwt.js',
-                        a = t.getElementsByTagName(n)[0], a.parentNode.insertBefore(u, a))}(window,document,'script');
-                    twq('config','ohpm6');
-                </script>
+                <Script
+                    src="/scripts/twitter-pixel.js"
+                    strategy="lazyOnload"
+                />
             </Head>
             <body>
                 <Main />
