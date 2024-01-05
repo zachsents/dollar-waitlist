@@ -1,11 +1,11 @@
 import { Avatar, Badge, Card, Group, Text } from "@mantine/core"
-import { useStorageUrl } from "@web/modules/firebase/storage"
+import { usePublicStorageUrl } from "@web/modules/firebase/storage"
 import { TbBrandGithub, TbBrandLinkedin, TbBrandTwitter } from "react-icons/tb"
 
 
 export default function TeamMemberCard({ avatar, name, title, linkedin, twitter, badges, github }) {
 
-    const { data: avatarUrl } = useStorageUrl(avatar)
+    const avatarUrl = usePublicStorageUrl(avatar)
 
     const badgeGroup =
         <Group className="gap-1 mt-md justify-center lg:justify-start">

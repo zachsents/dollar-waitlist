@@ -1,16 +1,16 @@
 import { Group, Paper, Skeleton, Stack, Text } from "@mantine/core"
-import { useStorageUrl } from "@web/modules/firebase/storage"
+import { usePublicStorageUrl } from "@web/modules/firebase/storage"
 import classNames from "classnames"
-import * as TbIcons from "react-icons/tb"
 import Color from "color"
 import { useMemo } from "react"
+import * as TbIcons from "react-icons/tb"
 
 
 export default function Feature({ className, image, title, description, icon: iconName, variant, gradientColor }) {
 
     const Icon = iconName && TbIcons[`Tb${iconName}`]
 
-    const { data: imageSource } = useStorageUrl(image)
+    const imageSource = usePublicStorageUrl(image)
 
     const imageComponent = <img
         src={imageSource}

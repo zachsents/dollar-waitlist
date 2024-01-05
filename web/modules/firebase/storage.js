@@ -15,3 +15,7 @@ export function useStorageUrl(path) {
         queryKey: ["download-url", path],
     })
 }
+
+export function usePublicStorageUrl(path) {
+    return `https://storage.googleapis.com/wait-for-it-aa4fd.appspot.com/${path}`
+}

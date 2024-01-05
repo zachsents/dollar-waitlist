@@ -1,5 +1,5 @@
 import { Group, Text } from "@mantine/core"
-import { useStorageUrl } from "@web/modules/firebase/storage"
+import { usePublicStorageUrl } from "@web/modules/firebase/storage"
 import { useCurrentWaitlist } from "@web/modules/hooks"
 import classNames from "classnames"
 import Link from "next/link"
@@ -9,7 +9,7 @@ export default function Brand({ className }) {
 
     const [waitlist] = useCurrentWaitlist()
 
-    const { data: logoSource } = useStorageUrl(waitlist?.logo)
+    const logoSource = usePublicStorageUrl(waitlist?.logo)
 
     return (
         <Link href="#" className="no-underline text-dark">
